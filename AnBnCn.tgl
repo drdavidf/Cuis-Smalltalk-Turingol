@@ -1,0 +1,90 @@
+tape alphabet is _, a, b, c, x ;
+
+loop: 
+
+// move right until "a" or blank
+
+finda: 
+
+move right one square; 
+
+if tape symbol is "a" then go to exita ; 
+
+if tape symbol is "_" then go to exita ; 
+
+go to finda ;
+
+exita:
+
+if tape symbol is "_" then go to finish ;
+
+print "x"		; 
+
+// move right until "b" or blank
+
+findb: 
+
+move right one square; 
+
+if tape symbol is "b" then go to exitb ; 
+
+if tape symbol is "_" then go to exitb ; 
+
+go to findb ;
+
+exitb:
+	
+if tape symbol is "_" then reject ;
+
+print "x" ; 
+
+// move right until "c" or blank
+
+findc: 
+
+move right one square; 
+
+if tape symbol is "c" then go to exitc ; 
+
+if tape symbol is "_" then go to exitc ; 
+
+go to findc ;
+
+exitc:
+
+if tape symbol is "_" then reject ;
+
+print "x" ; 
+
+// move left until blank ; 
+
+rewind: 
+
+move left one square ; 
+
+if tape symbol is "_" then go to loop ;
+
+go to rewind ;
+
+finish: 
+
+// move left until "b" or "c" or blank ;
+
+check: 
+
+move left one square ; 
+
+if tape symbol is "b" then go to exit ; 
+
+if tape symbol is "_" then go to exit ; 
+
+if tape symbol is "c" then go to exit; 
+
+go to check ;
+
+exit:
+
+if tape symbol is "_" then accept ;
+
+reject.
+

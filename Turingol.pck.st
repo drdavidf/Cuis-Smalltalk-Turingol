@@ -1,196 +1,103 @@
-'From Cuis 5.0 [latest update: #4360] on 27 November 2020 at 10:29:52 pm'!
+'From Cuis 5.0 [latest update: #4426] on 26 December 2020 at 6:22:39 pm'!
 'Description '!
-!provides: 'Turingol' 1 4!
+!provides: 'Turingol' 1 14!
 !requires: 'X-ray' 1 859 nil!
-SystemOrganization addCategory: #Turingol!
+SystemOrganization addCategory: 'Turingol'!
 
 
-!classDefinition: #PluggableTableMorph category: #Turingol!
-PluggableListMorph subclass: #PluggableTableMorph
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Turingol'!
-!classDefinition: 'PluggableTableMorph class' category: #Turingol!
-PluggableTableMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #TuringMachineWindow category: #Turingol!
-SystemWindow subclass: #TuringMachineWindow
-	instanceVariableNames: 'stepCounter'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Turingol'!
-!classDefinition: 'TuringMachineWindow class' category: #Turingol!
-TuringMachineWindow class
-	instanceVariableNames: ''!
-
-!classDefinition: #InnerTableMorph category: #Turingol!
+!classDefinition: #InnerTableMorph category: 'Turingol'!
 InnerListMorph subclass: #InnerTableMorph
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Turingol'!
-!classDefinition: 'InnerTableMorph class' category: #Turingol!
+!classDefinition: 'InnerTableMorph class' category: 'Turingol'!
 InnerTableMorph class
 	instanceVariableNames: ''!
 
-!classDefinition: #SequenceGenerator category: #Turingol!
+!classDefinition: #PluggableTableMorph category: 'Turingol'!
+PluggableListMorph subclass: #PluggableTableMorph
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Turingol'!
+!classDefinition: 'PluggableTableMorph class' category: 'Turingol'!
+PluggableTableMorph class
+	instanceVariableNames: ''!
+
+!classDefinition: #TuringMachineWindow category: 'Turingol'!
+SystemWindow subclass: #TuringMachineWindow
+	instanceVariableNames: 'stepCounter'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Turingol'!
+!classDefinition: 'TuringMachineWindow class' category: 'Turingol'!
+TuringMachineWindow class
+	instanceVariableNames: ''!
+
+!classDefinition: #SequenceGenerator category: 'Turingol'!
 Object subclass: #SequenceGenerator
 	instanceVariableNames: 'next'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Turingol'!
-!classDefinition: 'SequenceGenerator class' category: #Turingol!
+!classDefinition: 'SequenceGenerator class' category: 'Turingol'!
 SequenceGenerator class
 	instanceVariableNames: ''!
 
-!classDefinition: #Tape category: #Turingol!
+!classDefinition: #Tape category: 'Turingol'!
 Object subclass: #Tape
 	instanceVariableNames: 'blank activePositive activeNegative'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Turingol'!
-!classDefinition: 'Tape class' category: #Turingol!
+!classDefinition: 'Tape class' category: 'Turingol'!
 Tape class
 	instanceVariableNames: ''!
 
-!classDefinition: #TuringMachine category: #Turingol!
+!classDefinition: #TuringMachine category: 'Turingol'!
 Object subclass: #TuringMachine
-	instanceVariableNames: 'alphabet state head blank start halt program'
+	instanceVariableNames: 'alphabet state head start program running halting'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Turingol'!
-!classDefinition: 'TuringMachine class' category: #Turingol!
+!classDefinition: 'TuringMachine class' category: 'Turingol'!
 TuringMachine class
 	instanceVariableNames: ''!
 
-!classDefinition: #TuringMachineModel category: #Turingol!
+!classDefinition: #TuringMachineModel category: 'Turingol'!
 Object subclass: #TuringMachineModel
 	instanceVariableNames: 'text tm tape selectedCell currentConfiguration'
 	classVariableNames: 'TuringolParser'
 	poolDictionaries: ''
 	category: 'Turingol'!
-!classDefinition: 'TuringMachineModel class' category: #Turingol!
+!classDefinition: 'TuringMachineModel class' category: 'Turingol'!
 TuringMachineModel class
 	instanceVariableNames: ''!
 
+!classDefinition: #TuringMachineTransition category: 'Turingol'!
+Object subclass: #TuringMachineTransition
+	instanceVariableNames: 'from to readSymbol writeSymbol headDirection'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Turingol'!
+!classDefinition: 'TuringMachineTransition class' category: 'Turingol'!
+TuringMachineTransition class
+	instanceVariableNames: ''!
 
-!PluggableTableMorph methodsFor: 'as yet unclassified' stamp: 'DF 11/26/2020 19:42:55'!
-getList
+
+!InnerTableMorph methodsFor: 'as yet unclassified' stamp: 'DF 12/26/2020 18:08:06'!
+desiredWidth
+
+	| maxW |
+
+	maxW _ owner viewableWidth.
 	
-	"Answer the list to be displayed.  Caches the returned list in the 'list' ivar"
-	getListSelector
-		ifNil: [^ #()].
-	list _ model perform: getListSelector.
-	list
-		ifNil: [^ #()].
-	list _ list collect: [ :item | item collect:[:each | each displayStringOrText ] ].
+	listItems do: [ :each |
+		each ifNotNil: [
+			maxW _ maxW max: (self widthToDisplayItem: each contents)]].
 
-	^ list! !
-
-!PluggableTableMorph methodsFor: 'as yet unclassified' stamp: 'DF 11/26/2020 17:27:07'!
-innerMorphClass
-	^InnerTableMorph! !
-
-!TuringMachineWindow methodsFor: 'as yet unclassified' stamp: 'DF 11/26/2020 10:33:21'!
-alphabetMenu
-
-	| aMenu |
-	
-	aMenu _ MenuMorph new defaultTarget: self.
-	aMenu addTitle: 'Alphabet'.
-	aMenu
-		addItemsFromDictionaries: model alphabetMenu.
-
-	^aMenu! !
-
-!TuringMachineWindow methodsFor: 'as yet unclassified' stamp: 'DF 11/26/2020 21:04:30'!
-buildMorphicWindow
-
-	| b1 b2 b3 b4 buttons col programTextMorph tapeMorph row programColumn programTableMorph |
-	
-	tapeMorph _ PluggableListMorph 
-		model: model
-		listGetter: #tape
-		indexGetter: #selectedCell
-		indexSetter: #selectedCell:
-		mainView: self
-		menuGetter: #alphabetMenu
-		keystrokeAction: nil.
-	
-	programTextMorph _ TextModelMorph 
-					textProvider: model
-					textGetter: #acceptedContents 
-					textSetter: #acceptContents:
-					selectionGetter: #selectedText.
-
-	programTableMorph _ PluggableTableMorph 
-		model: model
-		listGetter: #program
-		indexGetter: #currentConfiguration
-		indexSetter: nil
-		mainView: self
-		menuGetter: nil
-		keystrokeAction: nil.
-
-	programColumn := LayoutMorph newColumn.
-	
-	programColumn addMorph: programTextMorph proportionalHeight:0.6;
-		addAdjusterAndMorph: programTableMorph proportionalHeight:0.4.
-		
-	buttons := LayoutMorph newRow.
-
-	b1 _ (PluggableButtonMorph model: model stateGetter: #isResetOn action: #pressReset) label: 'Reset'.
-	b2 _ (PluggableButtonMorph model: self stateGetter: #isRunOn action: #pressRun) label: 'Run'.
-	b3 _ (PluggableButtonMorph model: model stateGetter: #isStepOn action: #pressStep) label: 'Step'.
-	b4 _ (PluggableButtonMorph model: model stateGetter: #isPauseOn action: #pressPause) label: 'Pause'.
-	
-	buttons addMorphs: { b1 . b2 . b3 . b4 }.
-	
-	col _ LayoutMorph newColumn.
-
-	col   addMorph: tapeMorph proportionalHeight:0.8 ; 
-		addMorph:	 buttons proportionalHeight: 0.2.
-	
-	row _ LayoutMorph newRow.
-	
-	row 	addMorph: programColumn proportionalWidth: 0.7; 
-		addAdjusterAndMorph: col proportionalWidth: 0.3.
-	
-	self layoutMorph addMorph: row.
-	! !
-
-!TuringMachineWindow methodsFor: 'as yet unclassified' stamp: 'DF 11/27/2020 20:16:38'!
-initialize
-
-	super initialize.
-	
-	stepCounter := 100.! !
-
-!TuringMachineWindow methodsFor: 'as yet unclassified' stamp: 'DF 11/27/2020 20:26:21'!
-isRunOn
-
-	^stepCounter > 0 and: [ model tmHalted not ]! !
-
-!TuringMachineWindow methodsFor: 'as yet unclassified' stamp: 'DF 11/27/2020 20:28:37'!
-pressRun
-	
-	self startStepping.
-	
-! !
-
-!TuringMachineWindow methodsFor: 'as yet unclassified' stamp: 'DF 11/27/2020 20:29:35'!
-step
-
-	((stepCounter >= 100) or: [	model tmHalted]) 
-		ifTrue:[self stopStepping. 	stepCounter := 0.	 ^self].
-
-	model pressStep.
-	
-	stepCounter := stepCounter + 1.
-	
-! !
+	^maxW! !
 
 !InnerTableMorph methodsFor: 'as yet unclassified' stamp: 'DF 11/26/2020 17:22:03'!
 draw: item atRow: row atX: aNumber on: canvas
@@ -231,10 +138,134 @@ drawOn: aCanvas
 				self drawBackgroundForMulti: row on: aCanvas. ].
 			self draw: (self item: row) atRow: row on: aCanvas ]! !
 
-!InnerTableMorph methodsFor: 'as yet unclassified' stamp: 'DF 11/26/2020 17:40:30'!
+!InnerTableMorph methodsFor: 'as yet unclassified' stamp: 'DF 12/26/2020 17:33:24'!
 widthToDisplayItem: item
+	
 	^ (item collect:[:each | self font widthOfStringOrText: each]) sum
 	! !
+
+!PluggableTableMorph methodsFor: 'as yet unclassified' stamp: 'DF 11/26/2020 19:42:55'!
+getList
+	
+	"Answer the list to be displayed.  Caches the returned list in the 'list' ivar"
+	getListSelector
+		ifNil: [^ #()].
+	list _ model perform: getListSelector.
+	list
+		ifNil: [^ #()].
+	list _ list collect: [ :item | item collect:[:each | each displayStringOrText ] ].
+
+	^ list! !
+
+!PluggableTableMorph methodsFor: 'as yet unclassified' stamp: 'DF 11/26/2020 17:27:07'!
+innerMorphClass
+	^InnerTableMorph! !
+
+!TuringMachineWindow methodsFor: 'as yet unclassified' stamp: 'DF 11/26/2020 10:33:21'!
+alphabetMenu
+
+	| aMenu |
+	
+	aMenu _ MenuMorph new defaultTarget: self.
+	aMenu addTitle: 'Alphabet'.
+	aMenu
+		addItemsFromDictionaries: model alphabetMenu.
+
+	^aMenu! !
+
+!TuringMachineWindow methodsFor: 'as yet unclassified' stamp: 'DF 12/26/2020 18:22:08'!
+buildMorphicWindow
+
+	| b1 b2 b3 b4 buttons col programTextMorph tapeMorph row programColumn programTableMorph currentStateMorph |
+	
+	tapeMorph _ PluggableListMorph 
+		model: model
+		listGetter: #tape
+		indexGetter: #selectedCell
+		indexSetter: #selectedCell:
+		mainView: self
+		menuGetter: #alphabetMenu
+		keystrokeAction: nil.
+	
+	programTextMorph _ TextModelMorph 
+					textProvider: model
+					textGetter: #acceptedContents 
+					textSetter: #acceptContents:
+					selectionGetter: #selectedText.
+
+	programTableMorph _ PluggableTableMorph 
+		model: model
+		listGetter: #program
+		indexGetter: #currentConfiguration
+		indexSetter: nil
+		mainView: self
+		menuGetter: nil
+		keystrokeAction: nil.
+
+	programColumn := LayoutMorph newColumn.
+	
+	programColumn addMorph: programTextMorph proportionalHeight:0.6;
+		addAdjusterAndMorph: programTableMorph proportionalHeight:0.4.
+		
+	buttons := LayoutMorph newRow.
+
+	b1 _ (PluggableButtonMorph model: model stateGetter: #isResetOn action: #pressReset) label: 'Reset'.
+	b2 _ (PluggableButtonMorph model: self stateGetter: #isRunOn action: #pressRun) label: 'Run'.
+	b3 _ (PluggableButtonMorph model: model stateGetter: #isStepOn action: #pressStep) label: 'Step'.
+	b4 _ (PluggableButtonMorph model: model stateGetter: #isPauseOn action: #pressPause) label: 'Pause'.
+	
+	buttons addMorphs: { b1 . b2 . b3 . b4 }.
+
+	currentStateMorph _ LayoutMorph newColumn.
+	
+	currentStateMorph addMorph: (UpdatingLabelMorph new target: model ; getSelector: #currentState ; stepTime: 10; yourself) fixedHeight:16.
+	
+	currentStateMorph axisEdgeWeight: #center; separation:4@4.
+	 	
+	col _ LayoutMorph newColumn.
+
+	col addMorph: tapeMorph proportionalHeight:0.8 ; 
+		addMorph: currentStateMorph proportionalHeight:0.05;
+		addMorph:	 buttons proportionalHeight: 0.15.
+	
+	row _ LayoutMorph newRow.
+	
+	row 	addMorph: programColumn proportionalWidth: 0.7; 
+		addAdjusterAndMorph: col proportionalWidth: 0.3.
+	
+	self layoutMorph addMorph: row.
+	! !
+
+!TuringMachineWindow methodsFor: 'as yet unclassified' stamp: 'DF 11/27/2020 20:16:38'!
+initialize
+
+	super initialize.
+	
+	stepCounter := 100.! !
+
+!TuringMachineWindow methodsFor: 'as yet unclassified' stamp: 'DF 12/5/2020 13:10:06'!
+isRunOn
+
+	^stepCounter > 0 and: [ model tmRunning ]! !
+
+!TuringMachineWindow methodsFor: 'as yet unclassified' stamp: 'DF 11/27/2020 20:28:37'!
+pressRun
+	
+	self startStepping.
+	
+! !
+
+!TuringMachineWindow methodsFor: 'as yet unclassified' stamp: 'DF 11/27/2020 20:29:35'!
+step
+
+	((stepCounter >= 100) or: [	model tmHalted]) 
+		ifTrue:[self stopStepping. 	stepCounter := 0.	 ^self].
+
+	model pressStep.
+	
+	stepCounter := stepCounter + 1.
+	
+! !
 
 !SequenceGenerator methodsFor: 'as yet unclassified' stamp: 'DF 11/21/2020 21:26:15'!
 initialize
@@ -295,14 +326,18 @@ at: anInteger put: aSymbol
 			activePositive at: anInteger put: aSymbol ].
 ! !
 
-!Tape methodsFor: 'as yet unclassified' stamp: 'DF 11/25/2020 21:14:47'!
+!Tape methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 13:24:29'!
+blank
+	^blank! !
+
+!Tape methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 13:27:58'!
 initialize
 
 	activePositive := OrderedCollection new.
 
 	activeNegative := OrderedCollection new.
 	
-	blank := 'blank'.! !
+	blank := '_'.! !
 
 !Tape methodsFor: 'as yet unclassified' stamp: 'DF 11/26/2020 10:11:22'!
 inverseTransform: anInteger
@@ -331,23 +366,24 @@ alphabet: aSet
 	alphabet := aSet
 	! !
 
-!TuringMachine methodsFor: 'as yet unclassified' stamp: 'DF 11/21/2020 17:57:03'!
+!TuringMachine methodsFor: 'as yet unclassified' stamp: 'DF 12/22/2020 19:36:09'!
 halt: anInteger
 
-	halt := anInteger! !
+	halting add: anInteger! !
 
 !TuringMachine methodsFor: 'as yet unclassified' stamp: 'DF 11/21/2020 17:55:59'!
 head
 	^head
 	! !
 
-!TuringMachine methodsFor: 'as yet unclassified' stamp: 'DF 11/25/2020 21:03:52'!
+!TuringMachine methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 13:33:39'!
 initialize
 
-	blank := 'blank'.
-	
 	head := 1.
-	! !
+	
+	running _ false.
+	
+	halting _ { #yes . #no } asSet.! !
 
 !TuringMachine methodsFor: 'as yet unclassified' stamp: 'DF 11/26/2020 19:55:30'!
 instruction: aTape
@@ -376,24 +412,25 @@ program: aBinaryFunction
 	program := aBinaryFunction
 	! !
 
-!TuringMachine methodsFor: 'as yet unclassified' stamp: 'DF 11/25/2020 21:46:48'!
+!TuringMachine methodsFor: 'as yet unclassified' stamp: 'DF 12/26/2020 16:57:03'!
 reset
 
 	state := start.
 	
-	head := 1.
 	! !
 
 !TuringMachine methodsFor: 'as yet unclassified' stamp: 'DF 11/21/2020 17:56:56'!
 start: anInteger
 	start := anInteger! !
 
-!TuringMachine methodsFor: 'as yet unclassified' stamp: 'DF 11/25/2020 22:01:15'!
+!TuringMachine methodsFor: 'as yet unclassified' stamp: 'DF 12/22/2020 19:37:21'!
 step: aTape
 
 	| instruction |
 	
-	state = halt ifTrue:[^self].
+	(halting includes: state) ifTrue:[running _ false. ^self].
+	
+	running _ true.
 	
 	instruction := program at: { state . (aTape at: head) }.
 	
@@ -414,9 +451,54 @@ head: aSmallInteger
 state
 	^state! !
 
-!TuringMachine methodsFor: 'testing' stamp: 'DF 11/26/2020 20:03:11'!
+!TuringMachine methodsFor: 'testing' stamp: 'DF 12/22/2020 19:37:00'!
 halted
-	^state = halt! !
+	^ halting includes: state! !
+
+!TuringMachine methodsFor: 'testing' stamp: 'DF 12/5/2020 13:09:37'!
+running
+	^running! !
+
+!TuringMachine methodsFor: 'visualization' stamp: 'DF 12/23/2020 13:11:19'!
+asStateDiagram
+
+	| aStateDiagram diagramStates states transitions transitionSets |
+	
+	aStateDiagram _ StateDiagram new.
+
+	states _ Set new.
+	
+	program 	associations do:[:each | states add: each key first. states add: each value third ].
+	
+	diagramStates _ Dictionary new.
+	
+	states do:[:each | diagramStates at: each put: (DiagramState new radius:15 ; label: each asString) ].
+	
+	diagramStates do:[:each | aStateDiagram addState: each ].
+	
+	halting do:[:each | diagramStates at: each ifPresent:[:s | s accepting: true] ifAbsent:[] ].
+	
+	"create turing machine transition objects from the program tuples"
+	
+	transitions _ program associations collect:[:each | TuringMachineTransition from: each ].
+	
+	"replace the from/to states by their corresponding diagram states"
+	
+	transitions do:[:each | each from: (diagramStates at: each from) ; to: (diagramStates at: 	each to) ].
+		
+	"collect all the transitions between the same pair of states into a single set."
+	
+	transitionSets _ Dictionary new.
+	
+	transitions do:[:each | 
+		transitionSets at: each key
+		ifPresent: [ :aSet | aSet add: each ]
+		ifAbsent:[ transitionSets at: each key put:{ each } asSet ] ].
+	
+	transitionSets do:[:each | each addConnectionsTo: aStateDiagram alphabet: alphabet ].
+	
+	^aStateDiagram
+	! !
 
 !TuringMachine class methodsFor: 'as yet unclassified' stamp: 'DF 11/25/2020 22:00:30'!
 new: anXraySymbol
@@ -487,12 +569,19 @@ currentConfiguration
 	
 	^ tuples indexOf: { tm state . (tape at: tm head) } , instruction.! !
 
-!TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 11/25/2020 22:14:16'!
+!TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 12/22/2020 19:51:47'!
+currentState
+
+	tm ifNil:[^'N/A'].
+	
+	^tm state asString! !
+
+!TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 13:24:54'!
 initialize
 
 	tape := Tape new.
 	
-	tape at: -20 put: 'blank'; at:20 put: 'blank'. "give us some blank entries so we'll have something to show"
+	tape at: -20 put: tape blank; at:20 put: tape blank. "give us some blank entries so we'll have something to show"
 
 	selectedCell := 1.
 		
@@ -555,9 +644,9 @@ selectedCell
 	
 	^selectedCell! !
 
-!TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 11/26/2020 10:18:00'!
+!TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 10:07:10'!
 selectedCell: aSmallInteger 
-
+	
 	selectedCell _ aSmallInteger.
 	
 	tm ifNil:[^self].
@@ -580,6 +669,14 @@ tmHalted
 	^tm halted
 ! !
 
+!TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 12/5/2020 13:09:56'!
+tmRunning
+
+	tm ifNil:[^false].
+	
+	^tm running
+! !
+
 !TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 11/26/2020 10:45:05'!
 write: aSymbol
 
@@ -593,5 +690,121 @@ initialize
 	"self initialize"
 	
 	TuringolParser := Language parserFor:'Turingol'.
+	! !
+
+!TuringMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 12:55:23'!
+addConnectionTo: aStateDiagram withLabel: aString
+	aStateDiagram connect: from to: to label: aString! !
+
+!TuringMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 12:54:17'!
+from
+	^from! !
+
+!TuringMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 12:40:01'!
+from: aState
+	from _ aState! !
+
+!TuringMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 12:57:57'!
+headDirection
+	^headDirection! !
+
+!TuringMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 12:40:31'!
+headDirection: anInteger
+	headDirection _ anInteger! !
+
+!TuringMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 12:59:28'!
+key
+	^ { from . to }
+	! !
+
+!TuringMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 12:54:25'!
+readSymbol
+	^readSymbol! !
+
+!TuringMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 12:40:15'!
+readSymbol: aString
+	readSymbol _ aString! !
+
+!TuringMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 12:54:19'!
+to
+	^to! !
+
+!TuringMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 12:40:06'!
+to: aState
+	to _ aState! !
+
+!TuringMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 12:54:31'!
+writeSymbol
+	^writeSymbol! !
+
+!TuringMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 12:40:22'!
+writeSymbol: aString
+	writeSymbol _ aString! !
+
+!TuringMachineTransition methodsFor: 'testing' stamp: 'DF 12/23/2020 12:41:29'!
+isMoveLeftTransition
+	^readSymbol = writeSymbol and:[headDirection = -1]! !
+
+!TuringMachineTransition methodsFor: 'testing' stamp: 'DF 12/23/2020 12:41:22'!
+isMoveRightTransition
+	^readSymbol = writeSymbol and:[headDirection = 1]! !
+
+!TuringMachineTransition methodsFor: 'testing' stamp: 'DF 12/23/2020 12:40:58'!
+isReadTransition
+	^readSymbol = writeSymbol and:[headDirection = 0]! !
+
+!TuringMachineTransition class methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 12:44:15'!
+from: anAssociation
+
+	| aTransition |
+	
+	aTransition _ self new.
+	
+	aTransition from: anAssociation key first.
+	aTransition readSymbol: anAssociation key second.
+	aTransition writeSymbol: anAssociation value first.
+	aTransition headDirection: anAssociation value second.
+	aTransition to: anAssociation value third.
+	
+	^aTransition
+	! !
+
+!Set methodsFor: '*Turingol' stamp: 'DF 12/23/2020 15:29:28'!
+addConnectionsTo: aStateDiagram alphabet: aSetOfSymbols
+
+	" if all transitions are of the form c/0/c for every c in the alphabet then it's a skip "
+	
+	| x isTotal labels |
+
+	isTotal _ aSetOfSymbols allSatisfy:[:each | self anySatisfy: [:t | t readSymbol = each ] ].
+	
+	(isTotal and: [self allSatisfy:[:each | each isReadTransition ] ]) 
+		ifTrue: [ self anyOne addConnectionTo: aStateDiagram withLabel: 'skip'. ^self ].
+
+	" if all transitions are of the form c/1/c for every c in the alphabet then it's a move right "
+	(isTotal and: [ self allSatisfy:[:each | each isMoveRightTransition ] ]) 
+		ifTrue: [ self anyOne addConnectionTo: aStateDiagram withLabel: 'right'. ^self ].
+
+	" if all transitions are of the form c/-1/c for every c in the alphabet then it's a move left "
+	(isTotal and: [self allSatisfy:[:each | each isMoveLeftTransition ] ]) 
+		ifTrue: [ self anyOne addConnectionTo: aStateDiagram withLabel: 'left'. ^self ].
+	
+	" if all transitions are of the form c/0/x for every c in the alphabet then it's a write x "
+	
+	x _ self anyOne writeSymbol.
+	 
+	(isTotal and: [ self allSatisfy:[:each | each writeSymbol = x and:[ each headDirection = 0] ] ]) 
+		ifTrue: [ self anyOne addConnectionTo: aStateDiagram withLabel: 'write ', x. ^self ].
+	
+	" otherwise, if all the transitions differ only in the input (read) symbol, use only that in the label".
+	
+	(self allSatisfy:[:each | each readSymbol = each writeSymbol and:[ each headDirection = 0] ])
+		ifTrue: [ self do:[:each | each addConnectionTo: aStateDiagram withLabel: each readSymbol]. ^self] .
+	 
+	" otherwise, combine the labels of all the transitions into a single label "
+	
+	labels _ self collect:[:each | each readSymbol, '/', each headDirection asString, '/', each writeSymbol, String lf ].
+	
+	self anyOne addConnectionTo: aStateDiagram withLabel: (labels fold:[:a :b | a,';',b ]).
 	! !
 TuringMachineModel initialize!
