@@ -1,88 +1,85 @@
 tape alphabet is _, a, b, c, x ;
 
+to move right until $x or $y 
+{
+
 loop: 
 
-// move right until "a" or blank
+	move right one square; 
 
-finda: 
+	if tape symbol is $x then go to exit ; 
 
-move right one square; 
+	if tape symbol is $y then go to exit ; 
 
-if tape symbol is "a" then go to exita ; 
+	go to loop ;
 
-if tape symbol is "_" then go to exita ; 
+exit: ;
 
-go to finda ;
+}
 
-exita:
+to move left until $x
+{
+
+loop:
+
+	move left one square; 
+
+	if tape symbol is $x then go to exit ; 
+
+	go to loop ;
+
+exit: ;
+
+}
+
+to move left until $x or $y or $z
+{
+
+loop: 
+
+	move left one square; 
+
+	if tape symbol is $x then go to exit ; 
+
+	if tape symbol is $y then go to exit ; 
+
+	if tape symbol is $z then go to exit ; 
+
+	go to loop ;
+
+exit: ;
+
+}
+
+;
+
+loop: 
+
+move right until "a" or "_";
 
 if tape symbol is "_" then go to finish ;
 
 print "x"		; 
 
-// move right until "b" or blank
-
-findb: 
-
-move right one square; 
-
-if tape symbol is "b" then go to exitb ; 
-
-if tape symbol is "_" then go to exitb ; 
-
-go to findb ;
-
-exitb:
+move right until "b" or "_";
 	
 if tape symbol is "_" then reject ;
 
 print "x" ; 
 
-// move right until "c" or blank
-
-findc: 
-
-move right one square; 
-
-if tape symbol is "c" then go to exitc ; 
-
-if tape symbol is "_" then go to exitc ; 
-
-go to findc ;
-
-exitc:
+move right until "c" or "_";
 
 if tape symbol is "_" then reject ;
 
 print "x" ; 
 
-// move left until blank ; 
+move left until "_" ; 
 
-rewind: 
-
-move left one square ; 
-
-if tape symbol is "_" then go to loop ;
-
-go to rewind ;
+go to loop;
 
 finish: 
 
-// move left until "b" or "c" or blank ;
-
-check: 
-
-move left one square ; 
-
-if tape symbol is "b" then go to exit ; 
-
-if tape symbol is "_" then go to exit ; 
-
-if tape symbol is "c" then go to exit; 
-
-go to check ;
-
-exit:
+move left until "b" or "c" or "_" ;
 
 if tape symbol is "_" then accept ;
 

@@ -1,6 +1,6 @@
-'From Cuis 5.0 [latest update: #4426] on 26 December 2020 at 6:22:39 pm'!
+'From Cuis 5.0 [latest update: #4426] on 30 December 2020 at 6:39:43 pm'!
 'Description '!
-!provides: 'Turingol' 1 14!
+!provides: 'Turingol' 1 15!
 !requires: 'X-ray' 1 859 nil!
 SystemOrganization addCategory: 'Turingol'!
 
@@ -57,7 +57,7 @@ Tape class
 
 !classDefinition: #TuringMachine category: 'Turingol'!
 Object subclass: #TuringMachine
-	instanceVariableNames: 'alphabet state head start program running halting'
+	instanceVariableNames: 'alphabet allStates state head start program running halting stopState params'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Turingol'!
@@ -83,6 +83,16 @@ Object subclass: #TuringMachineTransition
 	category: 'Turingol'!
 !classDefinition: 'TuringMachineTransition class' category: 'Turingol'!
 TuringMachineTransition class
+	instanceVariableNames: ''!
+
+!classDefinition: #TuringolProcedure category: 'Turingol'!
+Object subclass: #TuringolProcedure
+	instanceVariableNames: 'statements parameters alphabet'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Turingol'!
+!classDefinition: 'TuringolProcedure class' category: 'Turingol'!
+TuringolProcedure class
 	instanceVariableNames: ''!
 
 
@@ -267,7 +277,14 @@ step
 	
 ! !
 
-!SequenceGenerator methodsFor: 'as yet unclassified' stamp: 'DF 11/21/2020 21:26:15'!
+!SequenceGenerator methodsFor: 'as yet unclassified' stamp: 'DF 12/27/2020 21:52:20'!
+advanceBy: anInteger
+	
+	next := next + anInteger.
+	
+	^ next - 1! !
+
+!SequenceGenerator methodsFor: 'as yet unclassified' stamp: 'DF 12/27/2020 17:10:37'!
 initialize
 
 	next := 1.
@@ -355,28 +372,7 @@ transform: anInteger
 	^ anInteger - activeNegative size
 	! !
 
-!TuringMachine methodsFor: 'as yet unclassified' stamp: 'DF 11/26/2020 10:33:09'!
-alphabet
-	^alphabet
-	! !
-
-!TuringMachine methodsFor: 'as yet unclassified' stamp: 'DF 11/21/2020 17:54:02'!
-alphabet: aSet
-
-	alphabet := aSet
-	! !
-
-!TuringMachine methodsFor: 'as yet unclassified' stamp: 'DF 12/22/2020 19:36:09'!
-halt: anInteger
-
-	halting add: anInteger! !
-
-!TuringMachine methodsFor: 'as yet unclassified' stamp: 'DF 11/21/2020 17:55:59'!
-head
-	^head
-	! !
-
-!TuringMachine methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 13:33:39'!
+!TuringMachine methodsFor: 'initialization' stamp: 'DF 12/23/2020 13:33:39'!
 initialize
 
 	head := 1.
@@ -385,45 +381,31 @@ initialize
 	
 	halting _ { #yes . #no } asSet.! !
 
-!TuringMachine methodsFor: 'as yet unclassified' stamp: 'DF 11/26/2020 19:55:30'!
+!TuringMachine methodsFor: 'computation' stamp: 'DF 11/26/2020 19:55:30'!
 instruction: aTape
 
 	^ program at: { state . (aTape at: head) }! !
 
-!TuringMachine methodsFor: 'as yet unclassified' stamp: 'DF 11/25/2020 21:46:24'!
+!TuringMachine methodsFor: 'computation' stamp: 'DF 11/25/2020 21:46:24'!
 moveLeft
 
 	head := head - 1.
 	! !
 
-!TuringMachine methodsFor: 'as yet unclassified' stamp: 'DF 11/25/2020 21:46:28'!
+!TuringMachine methodsFor: 'computation' stamp: 'DF 11/25/2020 21:46:28'!
 moveRight
 
 	head := head + 1.
 	! !
 
-!TuringMachine methodsFor: 'as yet unclassified' stamp: 'DF 11/26/2020 15:56:46'!
-program
-	^program! !
-
-!TuringMachine methodsFor: 'as yet unclassified' stamp: 'DF 11/21/2020 17:57:26'!
-program: aBinaryFunction
-
-	program := aBinaryFunction
-	! !
-
-!TuringMachine methodsFor: 'as yet unclassified' stamp: 'DF 12/26/2020 16:57:03'!
+!TuringMachine methodsFor: 'computation' stamp: 'DF 12/26/2020 16:57:03'!
 reset
 
 	state := start.
 	
 	! !
 
-!TuringMachine methodsFor: 'as yet unclassified' stamp: 'DF 11/21/2020 17:56:56'!
-start: anInteger
-	start := anInteger! !
-
-!TuringMachine methodsFor: 'as yet unclassified' stamp: 'DF 12/22/2020 19:37:21'!
+!TuringMachine methodsFor: 'computation' stamp: 'DF 12/22/2020 19:37:21'!
 step: aTape
 
 	| instruction |
@@ -443,13 +425,96 @@ step: aTape
 	state := instruction third.
 	! !
 
+!TuringMachine methodsFor: 'as yet unclassified' stamp: 'DF 12/29/2020 09:44:03'!
+relocateAt: anInteger 
+
+	| aTuringMachine transitions |
+	
+	aTuringMachine _ TuringMachine new.
+	
+	aTuringMachine alphabet: self alphabet.
+	
+	aTuringMachine start: start + anInteger.
+	
+	aTuringMachine stopState: stopState + anInteger.
+	
+	aTuringMachine states: (self states collect:[:each | each + anInteger ]).
+	
+	transitions _ program collect:[:each | { each key first + anInteger . each key second } -> { each value first . each value second . each value third + anInteger } ].
+	
+	aTuringMachine program: transitions.
+	
+	^aTuringMachine
+	! !
+
+!TuringMachine methodsFor: 'accessing' stamp: 'DF 11/26/2020 10:33:09'!
+alphabet
+	^alphabet
+	! !
+
+!TuringMachine methodsFor: 'accessing' stamp: 'DF 11/21/2020 17:54:02'!
+alphabet: aSet
+
+	alphabet := aSet
+	! !
+
+!TuringMachine methodsFor: 'accessing' stamp: 'DF 12/28/2020 11:24:45'!
+halting
+	^halting! !
+
+!TuringMachine methodsFor: 'accessing' stamp: 'DF 11/21/2020 17:55:59'!
+head
+	^head
+	! !
+
 !TuringMachine methodsFor: 'accessing' stamp: 'DF 11/26/2020 10:18:16'!
 head: aSmallInteger 
 	head _ aSmallInteger! !
 
+!TuringMachine methodsFor: 'accessing' stamp: 'DF 12/28/2020 22:37:56'!
+params: anOrderedCollection
+	params _ anOrderedCollection! !
+
+!TuringMachine methodsFor: 'accessing' stamp: 'DF 11/26/2020 15:56:46'!
+program
+	^program! !
+
+!TuringMachine methodsFor: 'accessing' stamp: 'DF 11/21/2020 17:57:26'!
+program: aBinaryFunction
+
+	program := aBinaryFunction
+	! !
+
+!TuringMachine methodsFor: 'accessing' stamp: 'DF 12/28/2020 11:31:11'!
+start
+	^start! !
+
+!TuringMachine methodsFor: 'accessing' stamp: 'DF 11/21/2020 17:56:56'!
+start: anInteger
+	start := anInteger! !
+
 !TuringMachine methodsFor: 'accessing' stamp: 'DF 11/26/2020 19:59:15'!
 state
 	^state! !
+
+!TuringMachine methodsFor: 'accessing' stamp: 'DF 12/28/2020 11:12:52'!
+states
+	^allStates! !
+
+!TuringMachine methodsFor: 'accessing' stamp: 'DF 12/28/2020 11:12:45'!
+states: aCollection
+	allStates _ aCollection! !
+
+!TuringMachine methodsFor: 'accessing' stamp: 'DF 12/28/2020 11:31:25'!
+stopState
+	^stopState! !
+
+!TuringMachine methodsFor: 'accessing' stamp: 'DF 12/28/2020 11:28:54'!
+stopState: anInteger
+
+	stopState _ anInteger.
+	
+	halting add: anInteger! !
 
 !TuringMachine methodsFor: 'testing' stamp: 'DF 12/22/2020 19:37:00'!
 halted
@@ -500,14 +565,14 @@ asStateDiagram
 	^aStateDiagram
 	! !
 
-!TuringMachine class methodsFor: 'as yet unclassified' stamp: 'DF 11/25/2020 22:00:30'!
+!TuringMachine class methodsFor: 'as yet unclassified' stamp: 'DF 12/28/2020 11:28:16'!
 new: anXraySymbol
 
 	| aTuringMachine |
 	
 	aTuringMachine := self new.
 	
-	aTuringMachine alphabet: #alphabet @ anXraySymbol ; start: #q0 @ anXraySymbol ; halt: #qe @ anXraySymbol ; program: (#transitions @ anXraySymbol) asDictionary; reset.
+	aTuringMachine alphabet: #alphabet @ anXraySymbol ; start: #q0 @ anXraySymbol ; stopState: #qe @ anXraySymbol ; program: (#transitions @ anXraySymbol) asDictionary; reset.
 	
 	^aTuringMachine! !
 
@@ -767,6 +832,41 @@ from: anAssociation
 	aTransition to: anAssociation value third.
 	
 	^aTransition
+	! !
+
+!TuringolProcedure methodsFor: 'accessing' stamp: 'DF 12/30/2020 11:32:38'!
+alphabet: aSet
+	alphabet _ aSet! !
+
+!TuringolProcedure methodsFor: 'accessing' stamp: 'DF 12/30/2020 11:33:12'!
+parameters: anOrderedCollection
+	parameters _ anOrderedCollection ! !
+
+!TuringolProcedure methodsFor: 'accessing' stamp: 'DF 12/30/2020 11:33:35'!
+statements: anXraySymbol
+	statements _ anXraySymbol ! !
+
+!TuringolProcedure methodsFor: 'as yet unclassified' stamp: 'DF 12/30/2020 12:50:03'!
+applyTo: arguments start: aState generator: aSequeneceGenerator
+
+	| env |
+
+	env _ (parameters with: arguments collect:[:param :arg | param -> arg ]) asDictionary.
+	
+	statements parent: nil. 
+	
+	statements at:#env put: env.
+	
+	statements at:#alphabet put: alphabet. 
+	
+	statements at: #generator put: aSequeneceGenerator.
+	
+	statements at: #start put: aState.
+	
+	statements semantics.
+	
+	^statements.
+	
 	! !
 
 !Set methodsFor: '*Turingol' stamp: 'DF 12/23/2020 15:29:28'!
