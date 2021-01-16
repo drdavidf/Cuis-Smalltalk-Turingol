@@ -1,0 +1,70 @@
+tape alphabet is _, a, b, c, x ;
+
+to move right over $x
+{
+loop:
+	move right one square;
+
+	if tape symbol is $x then go to loop;
+}
+
+to move right until $x or $y 
+{
+
+loop: 
+
+	move right one square; 
+
+	if tape symbol is $x then go to exit ; 
+
+	if tape symbol is $y then go to exit ; 
+
+	go to loop ;
+
+exit: ;
+
+}
+
+to move left until $x
+{
+
+loop:
+
+	move left one square; 
+
+	if tape symbol is $x then go to exit ; 
+
+	go to loop ;
+
+exit: ;
+
+}
+
+to check $x
+{
+	print "x";
+	move right until "c" or "_";
+	if tape symbol is "_" then reject;
+	move right over "x";
+	if tape symbol is $x then { print "x"; go to end; } ;
+	reject;
+end:
+	;
+}
+
+to check once
+{
+	if tape symbol is "a" then { check "a"; go to exit; } ;
+	if tape symbol is "b" then check "b";
+exit:
+	;
+}
+;
+
+loop:
+	move right one square;
+	if tape symbol is "c" then accept;
+	check once ; 
+	move left until "c";
+	move left until "x";
+	go to loop. 

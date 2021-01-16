@@ -1,0 +1,89 @@
+tape alphabet is _, a, b ;
+
+to copy $x
+{
+	print "_";
+	move right until "_";
+	move right until "_";
+	print $x;
+	move left until "_";
+	move left until "_";
+	print $x;
+}
+
+to move left until $x
+{
+
+loop:
+
+	move left one square; 
+
+	if tape symbol is $x then go to exit ; 
+
+	go to loop ;
+
+exit: ;
+
+}
+
+to move right until $x
+{
+
+loop:
+
+	move right one square; 
+
+	if tape symbol is $x then go to exit ; 
+
+	go to loop ;
+
+exit: ;
+
+}
+
+to duplicate with space
+{
+loop:
+
+	move right one square;
+
+	if tape symbol is "_" then go to exit;
+
+	if tape symbol is "a" then copy "a";
+
+	if tape symbol is "b" then copy "b";
+
+	go to loop;
+
+exit:
+	;
+}
+
+to shift once $x
+{
+	print "_";
+
+    move left one square;
+    
+    print $x;
+
+	move right one square;
+}
+
+to shift 
+{
+
+loop:
+
+  move right one square;
+ 
+  if tape symbol is "a" then { shift once "a" ; go to loop }
+  ;
+  if tape symbol is "b" then { shift once "b" ; go to loop }
+  ;
+  move left one square;
+}  
+
+;
+
+duplicate with space ; shift ; move left until "_".
