@@ -1,6 +1,7 @@
-'From Cuis 5.0 [latest update: #4426] on 16 January 2021 at 8:34:16 pm'!
+'From Cuis 5.0 [latest update: #4426] on 20 January 2021 at 6:25:33 pm'!
 'Description '!
-!provides: 'Turingol' 1 22!
+!provides: 'Turingol' 1 23!
+!requires: 'Kleene' 1 10 nil!
 !requires: 'X-ray' 1 859 nil!
 SystemOrganization addCategory: 'Turingol'!
 
