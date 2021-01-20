@@ -1,6 +1,6 @@
-'From Cuis 5.0 [latest update: #4426] on 20 January 2021 at 6:25:33 pm'!
+'From Cuis 5.0 [latest update: #4426] on 20 January 2021 at 7:35:58 pm'!
 'Description '!
-!provides: 'Turingol' 1 23!
+!provides: 'Turingol' 1 24!
 !requires: 'Kleene' 1 10 nil!
 !requires: 'X-ray' 1 859 nil!
 SystemOrganization addCategory: 'Turingol'!
@@ -461,6 +461,11 @@ midpointAlignment
 
 	^ (self morphTopLeft + self morphTopRight) / 2 - (self measureContents x / 2 @ 0)! !
 
+!UpdatingAlignedLabelMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/20/2021 19:35:13'!
+morphTopRight
+
+	^self morphTopLeft + (self morphWidth @ 0)! !
+
 !PointerMorph methodsFor: 'event handling testing' stamp: 'DF 1/3/2021 11:04:08'!
 handlesMouseDown: aMouseButtonEvent
 	^ true! !
@@ -541,6 +546,11 @@ initialize
 	super initialize.
 	
 	alignment _ #alignLeft.! !
+
+!AlignedLabelMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/20/2021 19:34:00'!
+morphTopRight
+
+	^self morphTopLeft + (self morphWidth @ 0)! !
 
 !PluggableTableMorph methodsFor: 'as yet unclassified' stamp: 'DF 11/26/2020 19:42:55'!
 getList
