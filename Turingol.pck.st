@@ -1,6 +1,6 @@
-'From Cuis 5.0 [latest update: #4426] on 20 January 2021 at 7:35:58 pm'!
+'From Cuis 5.0 [latest update: #4426] on 23 January 2021 at 7:38:22 pm'!
 'Description '!
-!provides: 'Turingol' 1 24!
+!provides: 'Turingol' 1 25!
 !requires: 'Kleene' 1 10 nil!
 !requires: 'X-ray' 1 859 nil!
 SystemOrganization addCategory: 'Turingol'!
@@ -1203,11 +1203,21 @@ pressStep
 	
 	self changed: #tape; changed: #currentConfiguration! !
 
-!TuringMachineModel class methodsFor: 'as yet unclassified' stamp: 'DF 11/25/2020 20:56:58'!
+!TuringMachineModel class methodsFor: 'as yet unclassified' stamp: 'DF 1/23/2021 19:37:35'!
 initialize
 
 	"self initialize"
 	
+	(Language includes: 'Turingol') ifFalse: [
+		
+		| aPackage |
+		
+		aPackage := CodePackage packageOfClass: self 
+			ifNone:[self error: 'Could not find the Turingol package'].
+
+		Language fileIn: aPackage fullFileName asFileEntry parent / 'Turingol.xray'.
+	].
+
 	TuringolParser := Language parserFor:'Turingol'.
 	! !
 
