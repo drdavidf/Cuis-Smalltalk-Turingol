@@ -6,7 +6,7 @@ patterns
 
 "//[^[:cntrl:]]*$"					{ nextTerminal }
 [[:space:]]+					{ nextTerminal } 
-[a-z_]+					identifier
+"[0-9A-Za-z_#=+*-]+"					identifier
 "\$[a-z]+"					variable
 
 rules
@@ -275,7 +275,7 @@ Statement 'statement' : Message 'message'
 
 	%aspect procedure-calls
 
-	{ result @ statement = { (procedures @ statement at: name @ message ifAbsent:[ MissingProcedure new message: message ; signal ]) applyTo: arguments @ message procedures: procedures @ statement start: start @ statement generator: generator @ statement } }
+	{ result @ statement = { (procedures @ statement at: name @ message ifAbsent:[ MissingDefinition new message: message ; signal ]) applyTo: arguments @ message procedures: procedures @ statement start: start @ statement generator: generator @ statement } }
 
 ;
 
@@ -340,6 +340,6 @@ Expression 'expr' : \" Identifier 'literal' \"
 
 	| variable 'v'
 
-		{ value@expr = env @ expr at: v value asString ifAbsent:[MissingProcedure new message: v ; signal] }
+		{ value@expr = env @ expr at: v value asString ifAbsent:[MissingDefinition new message: v ; signal] }
 
 	;
