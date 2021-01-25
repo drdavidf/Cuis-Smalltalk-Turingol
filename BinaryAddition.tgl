@@ -1,0 +1,109 @@
+tape alphabet is _ , 0 , 1, x, =, +;
+
+to move right until $x {
+
+loop:
+	move right one square ;
+	if tape symbol is $x then go to exit;
+	go to loop;
+exit: ;
+}
+
+to move left over $x {
+
+loop:
+	move left one square ;
+	if tape symbol is $x then go to loop
+}
+
+to move left until $x {
+
+loop:
+	move left one square ;
+	if tape symbol is $x then go to exit;
+	go to loop;
+exit: ;
+}
+
+to add once {
+
+  if tape symbol is "0" then { print "x"; add0 ; go to exit } ;
+  if tape symbol is "1" then { print "x"; add1  } ;
+exit: ;
+}
+
+to add0 {
+
+  move left until "+"; move left over "x"; 
+
+  if tape symbol is "0" then { print "x"; add00 ; go to exit } ;
+  if tape symbol is "1" then { print "x"; add01 } ;
+exit: ;
+
+}
+
+to add1 {
+
+  move left until "+"; move left over "x"; 
+
+  if tape symbol is "0" then { print "x"; add01 ; go to exit } ;
+  if tape symbol is "1" then { print "x"; add11 } ;
+exit: ;
+
+}
+
+to add00 {
+
+  move left until "="; move left one square;
+
+  if tape symbol is "0" then { move left until "_" ; print "0" ; go to exit } ;
+  if tape symbol is "1" then { print "0"; move left until "_" ; print "1" } ;
+exit: ;
+
+}
+
+to add01 {
+
+  move left until "="; move left one square;
+
+  if tape symbol is "0" then { print "0"; move left until "_" ; print "1" ; go to exit } ;
+  if tape symbol is "1" then { print "1"; move left until "_" ; print "0" } ;
+exit: ;
+
+}
+
+to add11 {
+
+  move left until "="; move left one square;
+
+  if tape symbol is "0" then { print "1"; move left until "_" ; print "0" ; go to exit } ;
+  if tape symbol is "1" then { print "1"; move left until "_" ; print "1" } ;
+exit: ;
+
+}
+
+;
+
+	print "0"; move right until "_"; move left one square ;
+
+loop:
+
+	if tape symbol is "+" then go to exit;
+
+	add once;
+
+	move right until "_" ; move left over "x" ;
+
+	go to loop;
+exit:
+
+	move left until "="; move left one square;
+
+	if tape symbol is "1" then { print "_"; move left until "_"; print "1" ; move left one square; go to done } ;
+
+	if tape symbol is "0" then { print "_"; move left until "_"; } ;
+
+done: .
+
+
+
