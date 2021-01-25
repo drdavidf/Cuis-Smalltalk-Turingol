@@ -1,6 +1,6 @@
-'From Cuis 5.0 [latest update: #4526] on 25 January 2021 at 1:14:39 pm'!
+'From Cuis 5.0 [latest update: #4526] on 25 January 2021 at 7:12:13 pm'!
 'Description '!
-!provides: 'Turingol' 1 27!
+!provides: 'Turingol' 1 29!
 !requires: 'Kleene' 1 10 nil!
 !requires: 'X-ray' 1 859 nil!
 SystemOrganization addCategory: 'Turingol'!
@@ -116,16 +116,6 @@ EruditeBook subclass: #TuringolManual
 TuringolManual class
 	instanceVariableNames: ''!
 
-!classDefinition: #NameOfSubclass category: 'Turingol'!
-Object subclass: #NameOfSubclass
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Turingol'!
-!classDefinition: 'NameOfSubclass class' category: 'Turingol'!
-NameOfSubclass class
-	instanceVariableNames: ''!
-
 !classDefinition: #SequenceGenerator category: 'Turingol'!
 Object subclass: #SequenceGenerator
 	instanceVariableNames: 'next'
@@ -158,7 +148,7 @@ TuringMachine class
 
 !classDefinition: #TuringMachineModel category: 'Turingol'!
 Object subclass: #TuringMachineModel
-	instanceVariableNames: 'text tm tape currentConfiguration selectedText errorNotifier'
+	instanceVariableNames: 'text tm tape currentConfiguration selectedText errorNotifier program programIndex'
 	classVariableNames: 'TuringolParser'
 	poolDictionaries: ''
 	category: 'Turingol'!
@@ -741,7 +731,7 @@ worldMenuForOpenGroup
 			#balloonText 	-> 		'A browser for editing compiling and running Turing machines'.
 		} asDictionary}`! !
 
-!TuringolManual methodsFor: 'as yet unclassified' stamp: 'DF 1/25/2021 13:12:14'!
+!TuringolManual methodsFor: 'as yet unclassified' stamp: 'DF 1/25/2021 15:16:16'!
 BasicCommands
 ^(EruditeBookSection basicNew title: 'Basic commands'; document: ((EruditeDocument contents: '!!!! Basic commands
 
@@ -769,7 +759,7 @@ BasicCommands
 
 ') images: ((Dictionary new)); yourself); subsections: (OrderedCollection new yourself); yourself)! !
 
-!TuringolManual methodsFor: 'as yet unclassified' stamp: 'DF 1/25/2021 13:12:14'!
+!TuringolManual methodsFor: 'as yet unclassified' stamp: 'DF 1/25/2021 15:16:16'!
 CommandCombinators
 ^(EruditeBookSection basicNew title: 'Command combinators'; document: ((EruditeDocument contents: '!!!! Conditionals
 
@@ -801,21 +791,25 @@ Jump to the statement labelled with <name>.
 
 ') images: ((Dictionary new)); yourself); subsections: (OrderedCollection new yourself); yourself)! !
 
-!TuringolManual methodsFor: 'as yet unclassified' stamp: 'DF 1/25/2021 13:12:14'!
+!TuringolManual methodsFor: 'as yet unclassified' stamp: 'DF 1/25/2021 15:16:16'!
 DefiningTheAlphabet
 ^(EruditeBookSection basicNew title: 'Defining the alphabet'; document: ((EruditeDocument contents: '!!!! Defining the alphabet
 
-**tape alphabet is <symbol>, ... **
+**tape alphabet is _ , <symbol>, ... **
 
 Write the symbols in a list separated by commas. 
 
-Don''t forget to include the underscore character _  (it is the symbol for blank). 
+For example:
+
+	tape alphabet is _ , 0 , 1 , + , = ;
+
+Notice the underscore character _  at the beginning. It is the symbol for blank and must always be included.
 
 //Note//: A symbol may consist of more than one character but this is discouraged as it will look bad on the tape.
 
 ') images: ((Dictionary new)); yourself); subsections: (OrderedCollection new yourself); yourself)! !
 
-!TuringolManual methodsFor: 'as yet unclassified' stamp: 'DF 1/25/2021 13:12:14'!
+!TuringolManual methodsFor: 'as yet unclassified' stamp: 'DF 1/25/2021 15:16:16'!
 Procedures
 ^(EruditeBookSection basicNew title: 'Procedures'; document: ((EruditeDocument contents: '!!!! Procedures
 
@@ -852,7 +846,7 @@ For example, to call the procedure we have defined earlier:
 
 ') images: ((Dictionary new)); yourself); subsections: (OrderedCollection new yourself); yourself)! !
 
-!TuringolManual methodsFor: 'as yet unclassified' stamp: 'DF 1/25/2021 13:12:14'!
+!TuringolManual methodsFor: 'as yet unclassified' stamp: 'DF 1/25/2021 15:16:16'!
 initialize
     super initialize.
     title _ 'Turingol Manual'.
@@ -1141,20 +1135,14 @@ new: anXraySymbol
 	
 	^aTuringMachine! !
 
-!TuringMachineModel methodsFor: 'accessing' stamp: 'DF 11/26/2020 20:02:17'!
+!TuringMachineModel methodsFor: 'accessing' stamp: 'DF 1/25/2021 19:10:41'!
 currentConfiguration
 
-	| instruction tuples |
-	
 	tm ifNil:[^0].
 	
 	tm halted ifTrue:[^0].
-	
-	tuples :=  self program.
-	
-	instruction := tm instruction: tape. 
-	
-	^ tuples indexOf: { tm state . (tape at: tm head) } , instruction.! !
+		
+	^ programIndex at: { tm state . (tape at: tm head) }! !
 
 !TuringMachineModel methodsFor: 'accessing' stamp: 'DF 12/22/2020 19:51:47'!
 currentState
@@ -1175,18 +1163,10 @@ head: anInteger
 	
 	tm head: anInteger! !
 
-!TuringMachineModel methodsFor: 'accessing' stamp: 'DF 1/16/2021 18:50:09'!
+!TuringMachineModel methodsFor: 'accessing' stamp: 'DF 1/25/2021 19:10:10'!
 program
 
-	| tuples headSymbols | 
-	
-	tm ifNil:[ ^{} ].
-
-	headSymbols _ { 1 -> '' . 0 -> '' . -1 -> '' } asDictionary.
-	
-	tuples := tm program associations collect:[:each | { each key first . each key second . each value first . headSymbols at: each value second . each value third } ].
-	
-	^ tuples sort: [:x :y | x first <= y first ].
+	^program 
 	
 	! !
 
@@ -1275,7 +1255,7 @@ isResetOn
 isStepOn
 	^false! !
 
-!TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 1/16/2021 18:44:52'!
+!TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 1/25/2021 19:06:07'!
 acceptContents: aString
 
 	[ | outcome |
@@ -1286,7 +1266,7 @@ acceptContents: aString
 
 		outcome second 
 			ifEmpty:[ 
-				tm := TuringMachine new: outcome first second ]
+				tm := TuringMachine new: outcome first second. self refreshProgram. ]
 			ifNotEmpty:[
 				tm := nil.
 				text addAttribute: TextColor red from: outcome second first start + 1 to: text size ].
@@ -1343,6 +1323,22 @@ pressStep
 	tm step: tape.
 	
 	self changed: #tape; changed: #currentConfiguration! !
+
+!TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 1/25/2021 19:11:15'!
+refreshProgram
+
+	| tuples headSymbols | 
+	
+	headSymbols _ { 1 -> '' . 0 -> '' . -1 -> '' } asDictionary.
+	
+	tuples := tm program associations collect:[:each | { each key first . each key second . each value first . headSymbols at: each value second . each value third } ].
+	
+	program _ tuples sort: [:x :y | x first <= y first ].
+	
+	programIndex _ Dictionary new.
+	
+	program withIndexDo: [:each :i | programIndex at: { each first . each second } put: i ].
+! !
 
 !TuringMachineModel class methodsFor: 'as yet unclassified' stamp: 'DF 1/24/2021 18:55:41'!
 initialize
