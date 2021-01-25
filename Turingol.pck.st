@@ -1,6 +1,6 @@
-'From Cuis 5.0 [latest update: #4526] on 24 January 2021 at 6:55:49 pm'!
+'From Cuis 5.0 [latest update: #4526] on 25 January 2021 at 1:14:39 pm'!
 'Description '!
-!provides: 'Turingol' 1 26!
+!provides: 'Turingol' 1 27!
 !requires: 'Kleene' 1 10 nil!
 !requires: 'X-ray' 1 859 nil!
 SystemOrganization addCategory: 'Turingol'!
@@ -104,6 +104,26 @@ SystemWindow subclass: #TuringMachineWindow
 	category: 'Turingol'!
 !classDefinition: 'TuringMachineWindow class' category: 'Turingol'!
 TuringMachineWindow class
+	instanceVariableNames: ''!
+
+!classDefinition: #TuringolManual category: 'Turingol'!
+EruditeBook subclass: #TuringolManual
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Turingol'!
+!classDefinition: 'TuringolManual class' category: 'Turingol'!
+TuringolManual class
+	instanceVariableNames: ''!
+
+!classDefinition: #NameOfSubclass category: 'Turingol'!
+Object subclass: #NameOfSubclass
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Turingol'!
+!classDefinition: 'NameOfSubclass class' category: 'Turingol'!
+NameOfSubclass class
 	instanceVariableNames: ''!
 
 !classDefinition: #SequenceGenerator category: 'Turingol'!
@@ -720,6 +740,127 @@ worldMenuForOpenGroup
 			#icon 			-> 	#editFindReplaceIcon.
 			#balloonText 	-> 		'A browser for editing compiling and running Turing machines'.
 		} asDictionary}`! !
+
+!TuringolManual methodsFor: 'as yet unclassified' stamp: 'DF 1/25/2021 13:12:14'!
+BasicCommands
+^(EruditeBookSection basicNew title: 'Basic commands'; document: ((EruditeDocument contents: '!!!! Basic commands
+
+**move left one square**
+
+	Moves the head one square to the left
+
+**move right one square**
+
+	Moves the head one square to the right
+
+**print "<symbol>"**
+
+	Prints <symbol> on the tape at the current head position. <symbol> must be one of the symbols in the alphabet.
+
+**accept**
+
+	Halts the machine in an //accepting// final state.
+
+**reject**
+
+	Halts the machine in a //rejecting// final state.
+
+
+
+') images: ((Dictionary new)); yourself); subsections: (OrderedCollection new yourself); yourself)! !
+
+!TuringolManual methodsFor: 'as yet unclassified' stamp: 'DF 1/25/2021 13:12:14'!
+CommandCombinators
+^(EruditeBookSection basicNew title: 'Command combinators'; document: ((EruditeDocument contents: '!!!! Conditionals
+
+**if tape symbol is <expression> then <statement> **
+
+Execute <statement> if the symbol on the tape at the current head location is equal to <expression>. Otherwise continue to the next command.
+
+<expression> must be either a symbol literal (for example "a") or a variable (for example $x). 
+
+!!!! Blocks
+
+**{ <statement 1> ; ... ; <statement n> }**
+
+Execute the commands <statement 1> up to <statement n> in the given order.
+
+!!!! Labels
+
+**<name> : <statement>**
+
+Mark <statement> with the given <name>. You can jump to this statement using //go to//.
+
+**go to <name>** 
+
+Jump to the statement labelled with <name>.
+
+
+
+
+
+') images: ((Dictionary new)); yourself); subsections: (OrderedCollection new yourself); yourself)! !
+
+!TuringolManual methodsFor: 'as yet unclassified' stamp: 'DF 1/25/2021 13:12:14'!
+DefiningTheAlphabet
+^(EruditeBookSection basicNew title: 'Defining the alphabet'; document: ((EruditeDocument contents: '!!!! Defining the alphabet
+
+**tape alphabet is <symbol>, ... **
+
+Write the symbols in a list separated by commas. 
+
+Don''t forget to include the underscore character _  (it is the symbol for blank). 
+
+//Note//: A symbol may consist of more than one character but this is discouraged as it will look bad on the tape.
+
+') images: ((Dictionary new)); yourself); subsections: (OrderedCollection new yourself); yourself)! !
+
+!TuringolManual methodsFor: 'as yet unclassified' stamp: 'DF 1/25/2021 13:12:14'!
+Procedures
+^(EruditeBookSection basicNew title: 'Procedures'; document: ((EruditeDocument contents: '!!!! Procedures
+
+!!!!!! Defining a procedure
+
+**to <name> ... { <statement> ... }**
+
+Define a procedure. 
+
+The procedure''s name may consist of several components. The first component must be a symbol. The rest can be either symbols or variables. 
+
+For example, 
+
+  to move left until $x or $y {
+    loop : 
+      move left one square ;
+      if tape symbol is $x then go to exit;
+      if tape symbol is $y then go to exit;
+      go to loop;
+    exit : ;
+  }
+
+defines a procedure that takes two parameters $x and $y.
+
+!!!!!! Calling a procedure
+
+**<name> ... **
+
+To call a procedure write the procedure''s name, and replace its parameters with symbols or variables. 
+
+For example, to call the procedure we have defined earlier:
+
+  move left until "a" or "_" 
+
+') images: ((Dictionary new)); yourself); subsections: (OrderedCollection new yourself); yourself)! !
+
+!TuringolManual methodsFor: 'as yet unclassified' stamp: 'DF 1/25/2021 13:12:14'!
+initialize
+    super initialize.
+    title _ 'Turingol Manual'.
+        self addSection: self DefiningTheAlphabet.
+        self addSection: self BasicCommands.
+        self addSection: self CommandCombinators.
+        self addSection: self Procedures.
+! !
 
 !SequenceGenerator methodsFor: 'as yet unclassified' stamp: 'DF 12/27/2020 21:52:20'!
 advanceBy: anInteger
