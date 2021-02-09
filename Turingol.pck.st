@@ -1,6 +1,6 @@
-'From Cuis 5.0 [latest update: #4526] on 25 January 2021 at 7:12:13 pm'!
+'From Cuis 5.0 [latest update: #4526] on 9 February 2021 at 2:59:47 pm'!
 'Description '!
-!provides: 'Turingol' 1 29!
+!provides: 'Turingol' 1 30!
 !requires: 'Kleene' 1 10 nil!
 !requires: 'X-ray' 1 859 nil!
 SystemOrganization addCategory: 'Turingol'!
@@ -1255,7 +1255,7 @@ isResetOn
 isStepOn
 	^false! !
 
-!TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 1/25/2021 19:06:07'!
+!TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 2/9/2021 14:58:25'!
 acceptContents: aString
 
 	[ | outcome |
@@ -1268,15 +1268,15 @@ acceptContents: aString
 			ifEmpty:[ 
 				tm := TuringMachine new: outcome first second. self refreshProgram. ]
 			ifNotEmpty:[
-				tm := nil.
+				tm := nil. program _ nil.
 				text addAttribute: TextColor red from: outcome second first start + 1 to: text size ].
 		
 	] 
 	on: XraySyntaxError do:[:anXraySyntaxError | 
-		tm := nil.
+		tm := nil. program _ nil.
 		text addAttribute: TextColor red from: anXraySyntaxError position + 1 to: text size ]
 	on: MissingDefinition do:[: aMissingDefinition | 
-		tm := nil.
+		tm := nil. program _ nil.
 		aMissingDefinition notifyTo: errorNotifier.		^false.]. 
 
 	self changed: #program.
