@@ -1,0 +1,94 @@
+tokens
+
+ : { } ; , . \" alphabet accepting states are if tape symbol is then go to guess
+
+patterns
+
+"//[^[:cntrl:]]*$"					{ nextTerminal }
+[[:space:]]+					{ nextTerminal } 
+"[0-9A-Za-z_#=+*-]+"					identifier
+
+rules
+
+%topic start
+
+Program 'program' : Alphabet 'alpha' ";" Accepting ";" State + 'states'
+
+	%aspect states
+
+	{ generator@program = SequenceGenerator new } 
+
+	{ states@program = id@states } 
+
+	%aspect labels
+
+	{ labels@program = (label@states) asDictionary }
+
+	%aspect transitions
+
+	{ transitions @ program = (transitions @ states) fold:[:x :y | x,y] ifEmpty:[{}] }
+
+	%aspect definitions
+
+	{ alphabet@ program = names @ alpha } 
+	;
+
+%topic alphabet
+
+Alphabet 'list' : tape alphabet is identifier 'head' 
+
+	%aspect definitions
+
+	{ names@list = { head value asString } } ;
+
+Alphabet 'list' : Alphabet 'tail' "," identifier 'head'
+
+	%aspect definitions 
+
+	{ names@list = names@tail , { head value asString } } ;
+
+%topic accepting 
+
+Accepting : accepting states are identifier ;
+
+Accepting : Accepting "," identifier ;
+
+%topic statements
+
+State 'state' : identifier 'label' ":" Statement 'stmt' ";" 
+
+	%aspect states
+
+	{ id@state = (generator@state) next } 
+
+	%aspect labels
+
+	{ label@state = label value asString -> (id@state) }
+
+	%aspect transitions 
+
+	{ transitions @ state =  transitions @ stmt }
+
+	;
+
+Statement : if tape symbol is Alternative + ;
+
+Alternative 'stmt' : identifier 'symbol' then go to identifier 'label' ";" 
+
+	%aspect transitions 
+
+	{ transitions @ stmt = StateMachineTransition new from: id@stmt ; symbol: symbol value asString ; to: ((labels@stmt) at: label value asString) ; yourself } ;
+
+Statement : Guess ;
+
+Guess 'list' : guess identifier 'label'
+
+	%aspect transitions
+
+	{ transitions @ list = { StateMachineTransition new from: id@list ; symbol: String new; to: ((labels@list) at: label value asString); yourself } } ;
+
+Guess 'list' : Guess 'tail' "," identifier 'label'
+
+	%aspect transitions 
+
+	{ transitions @ list = (transitions @ tail) , { StateMachineTransition new from: id@list ; symbol: String new ; to: ((labels @ list) at: label value asString); yourself } };

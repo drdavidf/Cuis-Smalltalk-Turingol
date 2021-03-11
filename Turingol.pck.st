@@ -1,6 +1,6 @@
-'From Cuis 5.0 [latest update: #4526] on 9 February 2021 at 2:59:47 pm'!
+'From Cuis 5.0 [latest update: #4526] on 11 March 2021 at 9:47:37 pm'!
 'Description '!
-!provides: 'Turingol' 1 30!
+!provides: 'Turingol' 1 31!
 !requires: 'Kleene' 1 10 nil!
 !requires: 'X-ray' 1 859 nil!
 SystemOrganization addCategory: 'Turingol'!
@@ -124,6 +124,16 @@ Object subclass: #SequenceGenerator
 	category: 'Turingol'!
 !classDefinition: 'SequenceGenerator class' category: 'Turingol'!
 SequenceGenerator class
+	instanceVariableNames: ''!
+
+!classDefinition: #StateMachineTransition category: 'Turingol'!
+Object subclass: #StateMachineTransition
+	instanceVariableNames: 'from symbol to'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Turingol'!
+!classDefinition: 'StateMachineTransition class' category: 'Turingol'!
+StateMachineTransition class
 	instanceVariableNames: ''!
 
 !classDefinition: #Tape category: 'Turingol'!
@@ -876,6 +886,30 @@ next
 	next := next + 1.
 	
 	^ next - 1! !
+
+!StateMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 3/11/2021 17:20:50'!
+from
+	^from! !
+
+!StateMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 3/11/2021 17:20:22'!
+from: aState
+	from _ aState! !
+
+!StateMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 3/11/2021 17:20:55'!
+symbol
+	^symbol! !
+
+!StateMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 3/11/2021 17:20:40'!
+symbol: aString
+	symbol _ aString! !
+
+!StateMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 3/11/2021 17:20:52'!
+to
+	^to! !
+
+!StateMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 3/11/2021 17:20:28'!
+to: aState
+	to _ aState! !
 
 !Tape methodsFor: 'as yet unclassified' stamp: 'DF 11/26/2020 10:14:07'!
 active
