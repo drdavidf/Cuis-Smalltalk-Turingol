@@ -1,8 +1,9 @@
-'From Cuis 5.0 [latest update: #4526] on 11 March 2021 at 9:47:37 pm'!
+'From Cuis 5.0 [latest update: #4526] on 2 April 2021 at 9:55:40 pm'!
 'Description '!
-!provides: 'Turingol' 1 31!
+!provides: 'Turingol' 1 36!
 !requires: 'Kleene' 1 10 nil!
 !requires: 'X-ray' 1 859 nil!
+!requires: 'Automata' 1 8 nil!
 SystemOrganization addCategory: 'Turingol'!
 
 
@@ -14,16 +15,6 @@ Error subclass: #MissingDefinition
 	category: 'Turingol'!
 !classDefinition: 'MissingDefinition class' category: 'Turingol'!
 MissingDefinition class
-	instanceVariableNames: ''!
-
-!classDefinition: #TapeMorph category: 'Turingol'!
-LayoutMorph subclass: #TapeMorph
-	instanceVariableNames: 'interval model'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Turingol'!
-!classDefinition: 'TapeMorph class' category: 'Turingol'!
-TapeMorph class
 	instanceVariableNames: ''!
 
 !classDefinition: #TuringMachineStateMorph category: 'Turingol'!
@@ -44,36 +35,6 @@ InnerListMorph subclass: #InnerTableMorph
 	category: 'Turingol'!
 !classDefinition: 'InnerTableMorph class' category: 'Turingol'!
 InnerTableMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #CellMorph category: 'Turingol'!
-UpdatingLabelMorph subclass: #CellMorph
-	instanceVariableNames: 'sequence index alphabet model setter getter alphabetGetter'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Turingol'!
-!classDefinition: 'CellMorph class' category: 'Turingol'!
-CellMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #UpdatingAlignedLabelMorph category: 'Turingol'!
-UpdatingLabelMorph subclass: #UpdatingAlignedLabelMorph
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Turingol'!
-!classDefinition: 'UpdatingAlignedLabelMorph class' category: 'Turingol'!
-UpdatingAlignedLabelMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #PointerMorph category: 'Turingol'!
-UpdatingAlignedLabelMorph subclass: #PointerMorph
-	instanceVariableNames: 'index setSelector'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Turingol'!
-!classDefinition: 'PointerMorph class' category: 'Turingol'!
-PointerMorph class
 	instanceVariableNames: ''!
 
 !classDefinition: #AlignedLabelMorph category: 'Turingol'!
@@ -126,54 +87,14 @@ Object subclass: #SequenceGenerator
 SequenceGenerator class
 	instanceVariableNames: ''!
 
-!classDefinition: #StateMachineTransition category: 'Turingol'!
-Object subclass: #StateMachineTransition
-	instanceVariableNames: 'from symbol to'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Turingol'!
-!classDefinition: 'StateMachineTransition class' category: 'Turingol'!
-StateMachineTransition class
-	instanceVariableNames: ''!
-
-!classDefinition: #Tape category: 'Turingol'!
-Object subclass: #Tape
-	instanceVariableNames: 'blank activePositive activeNegative'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Turingol'!
-!classDefinition: 'Tape class' category: 'Turingol'!
-Tape class
-	instanceVariableNames: ''!
-
-!classDefinition: #TuringMachine category: 'Turingol'!
-Object subclass: #TuringMachine
-	instanceVariableNames: 'alphabet allStates state head start program running halting stopState params'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Turingol'!
-!classDefinition: 'TuringMachine class' category: 'Turingol'!
-TuringMachine class
-	instanceVariableNames: ''!
-
 !classDefinition: #TuringMachineModel category: 'Turingol'!
 Object subclass: #TuringMachineModel
-	instanceVariableNames: 'text tm tape currentConfiguration selectedText errorNotifier program programIndex'
+	instanceVariableNames: 'text tm tmvm tape currentConfiguration selectedText errorNotifier program programIndex'
 	classVariableNames: 'TuringolParser'
 	poolDictionaries: ''
 	category: 'Turingol'!
 !classDefinition: 'TuringMachineModel class' category: 'Turingol'!
 TuringMachineModel class
-	instanceVariableNames: ''!
-
-!classDefinition: #TuringMachineTransition category: 'Turingol'!
-Object subclass: #TuringMachineTransition
-	instanceVariableNames: 'from to readSymbol writeSymbol headDirection'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Turingol'!
-!classDefinition: 'TuringMachineTransition class' category: 'Turingol'!
-TuringMachineTransition class
 	instanceVariableNames: ''!
 
 !classDefinition: #TuringolProcedure category: 'Turingol'!
@@ -186,11 +107,6 @@ Object subclass: #TuringolProcedure
 TuringolProcedure class
 	instanceVariableNames: ''!
 
-
-!Tape methodsFor: 'as yet unclassified' stamp: 'DF 1/3/2021 16:48:33'!
-format
-	activeNegative atAllPut: blank.
-	activePositive atAllPut: blank.! !
 
 !MissingDefinition methodsFor: 'as yet unclassified' stamp: 'DF 1/9/2021 21:31:28'!
 insertErrorMessageInto: aText
@@ -217,60 +133,6 @@ notifyTo: aNotifier
 	aNotifier notify: ('Undefined ->' asText addAttribute: TextColor red ; yourself) at: message start in: nil; redrawNeeded.
 	
 ! !
-
-!TapeMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/3/2021 16:29:40'!
-adoptWidgetsColor: aColor
-	"don't adopt any colors"
-	! !
-
-!TapeMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/16/2021 20:24:46'!
-buildHeadMorph
-
-	| cells aLayoutMorph |
-	
-	cells _ interval collect:[:each | PointerMorph new fontSize:24; color: Color black; index: each; target: model; getSelector: #head; setSelector:#head:; yourself ].
-
-	aLayoutMorph _ LayoutMorph newRow.
-
-	aLayoutMorph separation:4@8 ; axisEdgeWeight: #center.
-	
-	cells do:[:each | aLayoutMorph addMorph: each proportionalWidth: 1 / cells size ].
-
-	^aLayoutMorph 
-! !
-
-!TapeMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/3/2021 16:34:18'!
-buildMorph
-
-	self addMorph: self buildTapeMorph proportionalHeight: 5/8;
-		addMorph: self buildHeadMorph proportionalHeight: 3/8.
-		
-! !
-
-!TapeMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/3/2021 16:36:16'!
-buildTapeMorph
-
-	| aLayoutMorph cells |
-	
-	cells _ interval collect:[:each | CellMorph new fontSize:36; color: Color white; model: model ; index: each; getter: #tapeAt: ; setter: #tapeAt:put: ; alphabetGetter: #alphabet; yourself ].
-
-	aLayoutMorph _ LayoutMorph newRow.
-
-	aLayoutMorph color: Color black.
-	
-	aLayoutMorph separation:16@8 ; axisEdgeWeight: #center.
-	
-	cells do:[:each | aLayoutMorph addMorph: each proportionalWidth: 1 / cells size ].
-
-	^ aLayoutMorph! !
-
-!TapeMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/3/2021 11:14:45'!
-interval: anInterval
-	interval _ anInterval! !
-
-!TapeMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/3/2021 11:35:39'!
-model: anObject
-	model _ anObject! !
 
 !TuringMachineStateMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/9/2021 18:33:53'!
 adoptWidgetsColor: aColor
@@ -383,154 +245,6 @@ widthToDisplayItem: item
 	
 	^ (item collect:[:each | self font widthOfStringOrText: each]) sum
 	! !
-
-!CellMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/3/2021 16:35:54'!
-alphabet
-
-	alphabetGetter ifNil:[^{}].
-	
-	^model perform: alphabetGetter! !
-
-!CellMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/3/2021 16:35:28'!
-alphabetGetter: aSymbol
-	alphabetGetter _ aSymbol! !
-
-!CellMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/3/2021 15:54:18'!
-fontSize: anInteger
-
-	self font: (FontFamily defaultFamilyPointSize: anInteger).
-! !
-
-!CellMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/3/2021 16:36:46'!
-getMenu
-
-	| aMenu | 
-
-	aMenu _ MenuMorph new defaultTarget: self.
-	aMenu
-		addTitle: 'Alphabet'.
-	
-	aMenu addItemsFromDictionaries: (self alphabet collect:[:each |  
-		{	#label 			-> 	each.
-			#object 			-> 	self.
-			#selector 			->	#write: .
-			#arguments     -> 	 {each}				} asDictionary ]).
-		
-	^aMenu ! !
-
-!CellMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/3/2021 10:06:30'!
-getter: aMessage
-	getter _ aMessage! !
-
-!CellMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/2/2021 19:52:56'!
-handlesMouseDown: aMouseButtonEvent
-	^ true! !
-
-!CellMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/1/2021 21:49:23'!
-index: anInteger
-	index _ anInteger! !
-
-!CellMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/3/2021 16:22:20'!
-initialize
-
-	super initialize.
-	
-	self contents: ''.
-	
-	self getSelector: #itemAtIndex ; target: self! !
-
-!CellMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/3/2021 10:08:58'!
-itemAtIndex
-
-	model ifNil:[^''].
-	
-	index ifNil:[^''].
-	
-	^model perform: getter with: index! !
-
-!CellMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/3/2021 10:06:09'!
-model: anObject
-	model _ anObject! !
-
-!CellMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/2/2021 19:50:01'!
-mouseButton2Activity
-	"Invoke the menu"
-	self getMenu ifNotNil: [ :menu |
-		menu popUpInWorld: self world ]! !
-
-!CellMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/3/2021 10:06:22'!
-setter: aMessage
-	setter _ aMessage! !
-
-!CellMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/3/2021 11:22:55'!
-write: aString
-
-	model perform: setter with: index with: aString
-! !
-
-!UpdatingAlignedLabelMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/16/2021 20:23:04'!
-drawOn: aCanvas
-	aCanvas
-		drawString: (contents ifNil: [ '' ])
-		at: self midpointAlignment 
-		font: self fontToUse
-		color: color! !
-
-!UpdatingAlignedLabelMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/16/2021 20:22:57'!
-midpointAlignment
-
-	^ (self morphTopLeft + self morphTopRight) / 2 - (self measureContents x / 2 @ 0)! !
-
-!UpdatingAlignedLabelMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/20/2021 19:35:13'!
-morphTopRight
-
-	^self morphTopLeft + (self morphWidth @ 0)! !
-
-!PointerMorph methodsFor: 'event handling testing' stamp: 'DF 1/3/2021 11:04:08'!
-handlesMouseDown: aMouseButtonEvent
-	^ true! !
-
-!PointerMorph methodsFor: 'stepping' stamp: 'DF 1/2/2021 21:44:52'!
-stepAt: millisecondSinceLast
-
-	(target perform: getSelector) = index 
-		ifTrue:[ 	self contents: '' ] ifFalse:[self contents: '' ].
-! !
-
-!PointerMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/3/2021 15:54:09'!
-fontSize: anInteger
-
-	self font: (FontFamily defaultFamilyPointSize: anInteger).
-! !
-
-!PointerMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/2/2021 21:41:22'!
-index: anInteger
-	
-	index _ anInteger.! !
-
-!PointerMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/3/2021 16:22:38'!
-initialize
-
-	super initialize.
-	
-	self contents: ''.
-! !
-
-!PointerMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/3/2021 11:44:11'!
-mouseButton1Activity
-
-	Transcript show:'*';cr.
-	
-	target perform: setSelector with: index! !
-
-!PointerMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/3/2021 11:49:09'!
-mouseButton1Up: anEvent localPosition: aPoint
-
-	target perform: setSelector with: index! !
-
-!PointerMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/3/2021 11:03:54'!
-setSelector: aSelector
-	setSelector _ aSelector! !
 
 !AlignedLabelMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/16/2021 20:12:34'!
 align: aMessage
@@ -887,315 +601,33 @@ next
 	
 	^ next - 1! !
 
-!StateMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 3/11/2021 17:20:50'!
-from
-	^from! !
-
-!StateMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 3/11/2021 17:20:22'!
-from: aState
-	from _ aState! !
-
-!StateMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 3/11/2021 17:20:55'!
-symbol
-	^symbol! !
-
-!StateMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 3/11/2021 17:20:40'!
-symbol: aString
-	symbol _ aString! !
-
-!StateMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 3/11/2021 17:20:52'!
-to
-	^to! !
-
-!StateMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 3/11/2021 17:20:28'!
-to: aState
-	to _ aState! !
-
-!Tape methodsFor: 'as yet unclassified' stamp: 'DF 11/26/2020 10:14:07'!
-active
-
-	^ activeNegative reverse, activePositive! !
-
-!Tape methodsFor: 'as yet unclassified' stamp: 'DF 11/25/2020 21:40:25'!
-at: anInteger
-
-	anInteger <= 0 
-		ifTrue:[ | index |
-		
-		index := 1 - anInteger.
-		
-		index > activeNegative size ifTrue:[^blank].
-		
-		^activeNegative at: index ]
-	
-		ifFalse:[
-			
-			anInteger > activePositive size ifTrue:[^blank].
-			
-			^activePositive at: anInteger].
-		
-		
-		! !
-
-!Tape methodsFor: 'as yet unclassified' stamp: 'DF 11/25/2020 21:45:19'!
-at: anInteger put: aSymbol
-
-	anInteger <= 0 
-		ifTrue:[ | index |
-		
-		index := 1 - anInteger.
-		
-		index - activeNegative size timesRepeat:[activeNegative add: blank].
-		
-		activeNegative at: index put: aSymbol ]
-	
-		ifFalse:[
-			
-			anInteger - activePositive size timesRepeat:[activePositive add: blank].
-			
-			activePositive at: anInteger put: aSymbol ].
-! !
-
-!Tape methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 13:24:29'!
-blank
-	^blank! !
-
-!Tape methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 13:27:58'!
-initialize
-
-	activePositive := OrderedCollection new.
-
-	activeNegative := OrderedCollection new.
-	
-	blank := '_'.! !
-
-!Tape methodsFor: 'as yet unclassified' stamp: 'DF 11/26/2020 10:11:22'!
-inverseTransform: anInteger
-	
-	"transform a position from aboslute to view relative "
-	
-	^ anInteger + activeNegative size
-	! !
-
-!Tape methodsFor: 'as yet unclassified' stamp: 'DF 11/25/2020 22:20:03'!
-transform: anInteger
-	
-	"transform a position from aboslute to view relative "
-	
-	^ anInteger - activeNegative size
-	! !
-
-!TuringMachine methodsFor: 'initialization' stamp: 'DF 12/23/2020 13:33:39'!
-initialize
-
-	head := 1.
-	
-	running _ false.
-	
-	halting _ { #yes . #no } asSet.! !
-
-!TuringMachine methodsFor: 'computation' stamp: 'DF 11/26/2020 19:55:30'!
-instruction: aTape
-
-	^ program at: { state . (aTape at: head) }! !
-
-!TuringMachine methodsFor: 'computation' stamp: 'DF 11/25/2020 21:46:24'!
-moveLeft
-
-	head := head - 1.
-	! !
-
-!TuringMachine methodsFor: 'computation' stamp: 'DF 11/25/2020 21:46:28'!
-moveRight
-
-	head := head + 1.
-	! !
-
-!TuringMachine methodsFor: 'computation' stamp: 'DF 1/3/2021 16:49:26'!
-reset
-
-	state := start.
-	
-	! !
-
-!TuringMachine methodsFor: 'computation' stamp: 'DF 12/22/2020 19:37:21'!
-step: aTape
-
-	| instruction |
-	
-	(halting includes: state) ifTrue:[running _ false. ^self].
-	
-	running _ true.
-	
-	instruction := program at: { state . (aTape at: head) }.
-	
-	aTape at: head put: instruction first.
-	
-	(instruction second = -1) ifTrue:[self moveLeft].
-	
-	(instruction second = 1) ifTrue:[self moveRight].
-	
-	state := instruction third.
-	! !
-
-!TuringMachine methodsFor: 'accessing' stamp: 'DF 11/26/2020 10:33:09'!
-alphabet
-	^alphabet
-	! !
-
-!TuringMachine methodsFor: 'accessing' stamp: 'DF 11/21/2020 17:54:02'!
-alphabet: aSet
-
-	alphabet := aSet
-	! !
-
-!TuringMachine methodsFor: 'accessing' stamp: 'DF 12/28/2020 11:24:45'!
-halting
-	^halting! !
-
-!TuringMachine methodsFor: 'accessing' stamp: 'DF 11/21/2020 17:55:59'!
-head
-	^head
-	! !
-
-!TuringMachine methodsFor: 'accessing' stamp: 'DF 11/26/2020 10:18:16'!
-head: aSmallInteger 
-	head _ aSmallInteger! !
-
-!TuringMachine methodsFor: 'accessing' stamp: 'DF 12/28/2020 22:37:56'!
-params: anOrderedCollection
-	params _ anOrderedCollection! !
-
-!TuringMachine methodsFor: 'accessing' stamp: 'DF 11/26/2020 15:56:46'!
-program
-	^program! !
-
-!TuringMachine methodsFor: 'accessing' stamp: 'DF 11/21/2020 17:57:26'!
-program: aBinaryFunction
-
-	program := aBinaryFunction
-	! !
-
-!TuringMachine methodsFor: 'accessing' stamp: 'DF 12/28/2020 11:31:11'!
-start
-	^start! !
-
-!TuringMachine methodsFor: 'accessing' stamp: 'DF 11/21/2020 17:56:56'!
-start: anInteger
-	start := anInteger! !
-
-!TuringMachine methodsFor: 'accessing' stamp: 'DF 11/26/2020 19:59:15'!
-state
-	^state! !
-
-!TuringMachine methodsFor: 'accessing' stamp: 'DF 12/28/2020 11:12:52'!
-states
-	^allStates! !
-
-!TuringMachine methodsFor: 'accessing' stamp: 'DF 12/28/2020 11:12:45'!
-states: aCollection
-	allStates _ aCollection! !
-
-!TuringMachine methodsFor: 'accessing' stamp: 'DF 12/28/2020 11:31:25'!
-stopState
-	^stopState! !
-
-!TuringMachine methodsFor: 'accessing' stamp: 'DF 12/28/2020 11:28:54'!
-stopState: anInteger
-
-	stopState _ anInteger.
-	
-	halting add: anInteger! !
-
-!TuringMachine methodsFor: 'testing' stamp: 'DF 12/22/2020 19:37:00'!
-halted
-	^ halting includes: state! !
-
-!TuringMachine methodsFor: 'testing' stamp: 'DF 12/5/2020 13:09:37'!
-running
-	^running! !
-
-!TuringMachine methodsFor: 'visualization' stamp: 'DF 1/16/2021 12:09:34'!
-asStateDiagram
-
-	| aStateDiagram diagramStates states transitions transitionSets |
-	
-	aStateDiagram _ StateDiagram new.
-
-	states _ Set new.
-	
-	program 	associations do:[:each | states add: each key first. states add: each value third ].
-	
-	diagramStates _ Dictionary new.
-	
-	states do:[:each | diagramStates at: each put: (DiagramState new radius:15 ; label: each asString) ].
-	
-	(diagramStates at: start) initial: true.
-	
-	diagramStates do:[:each | aStateDiagram addState: each ].
-	
-	halting do:[:each | diagramStates at: each ifPresent:[:s | s accepting: true] ifAbsent:[] ].
-	
-	"create turing machine transition objects from the program tuples"
-	
-	transitions _ program associations collect:[:each | TuringMachineTransition from: each ].
-	
-	"replace the from/to states by their corresponding diagram states"
-	
-	transitions do:[:each | each from: (diagramStates at: each from) ; to: (diagramStates at: 	each to) ].
-		
-	"collect all the transitions between the same pair of states into a single set."
-	
-	transitionSets _ Dictionary new.
-	
-	transitions do:[:each | 
-		transitionSets at: each key
-		ifPresent: [ :aSet | aSet add: each ]
-		ifAbsent:[ transitionSets at: each key put:{ each } asSet ] ].
-	
-	transitionSets do:[:each | each addConnectionsTo: aStateDiagram alphabet: alphabet ].
-	
-	^aStateDiagram
-	! !
-
-!TuringMachine class methodsFor: 'as yet unclassified' stamp: 'DF 1/3/2021 16:49:26'!
-new: anXraySymbol
-
-	| aTuringMachine |
-	
-	aTuringMachine := self new.
-	
-	aTuringMachine alphabet: #alphabet @ anXraySymbol ; start: #q0 @ anXraySymbol ; stopState: #qe @ anXraySymbol ; program: (#transitions @ anXraySymbol) asDictionary; reset.
-	
-	^aTuringMachine! !
-
-!TuringMachineModel methodsFor: 'accessing' stamp: 'DF 1/25/2021 19:10:41'!
+!TuringMachineModel methodsFor: 'accessing' stamp: 'DF 4/2/2021 21:23:04'!
 currentConfiguration
 
 	tm ifNil:[^0].
 	
-	tm halted ifTrue:[^0].
+	tmvm isRunning ifFalse:[^0].
 		
-	^ programIndex at: { tm state . (tape at: tm head) }! !
+	^ programIndex at: { tmvm state . tape at: tmvm head }. ! !
 
-!TuringMachineModel methodsFor: 'accessing' stamp: 'DF 12/22/2020 19:51:47'!
+!TuringMachineModel methodsFor: 'accessing' stamp: 'DF 4/2/2021 21:21:23'!
 currentState
 
 	tm ifNil:[^'N/A'].
 	
-	^tm state asString! !
+	^tmvm state asString! !
 
-!TuringMachineModel methodsFor: 'accessing' stamp: 'DF 1/3/2021 11:01:40'!
+!TuringMachineModel methodsFor: 'accessing' stamp: 'DF 4/2/2021 21:22:01'!
 head
 	tm ifNil:[^nil].
 	
-	^tm head! !
+	^tmvm head! !
 
-!TuringMachineModel methodsFor: 'accessing' stamp: 'DF 1/3/2021 11:13:28'!
+!TuringMachineModel methodsFor: 'accessing' stamp: 'DF 4/2/2021 21:22:05'!
 head: anInteger
 	tm ifNil:[^self].
 	
-	tm head: anInteger! !
+	tmvm head: anInteger! !
 
 !TuringMachineModel methodsFor: 'accessing' stamp: 'DF 1/25/2021 19:10:10'!
 program
@@ -1226,12 +658,12 @@ tmAbsent
 	^tm isNil
 ! !
 
-!TuringMachineModel methodsFor: 'accessing' stamp: 'DF 1/9/2021 18:32:37'!
+!TuringMachineModel methodsFor: 'accessing' stamp: 'DF 4/2/2021 21:13:40'!
 tmHalted
 
 	tm ifNil:[^false].
 	
-	^tm halted
+	^tmvm isRunning not
 ! !
 
 !TuringMachineModel methodsFor: 'accessing' stamp: 'DF 1/9/2021 18:32:28'!
@@ -1240,12 +672,12 @@ tmPresent
 	^tm notNil
 ! !
 
-!TuringMachineModel methodsFor: 'accessing' stamp: 'DF 12/5/2020 13:09:56'!
+!TuringMachineModel methodsFor: 'accessing' stamp: 'DF 4/2/2021 21:23:58'!
 tmRunning
 
 	tm ifNil:[^false].
 	
-	^tm running
+	^tmvm isRunning
 ! !
 
 !TuringMachineModel methodsFor: 'menu' stamp: 'DF 1/3/2021 10:16:50'!
@@ -1262,7 +694,7 @@ showStateDiagram
 	
 	[tm asStateDiagram asMorph embeddedInZoomingWindowLabeled: 'State Machine Diagram'] fork! !
 
-!TuringMachineModel methodsFor: 'initialization' stamp: 'DF 1/16/2021 17:42:16'!
+!TuringMachineModel methodsFor: 'initialization' stamp: 'DF 4/2/2021 21:27:34'!
 initialize
 
 	tape := Tape new.
@@ -1274,6 +706,10 @@ initialize
 	text := '' asText.
 	
 	tm := nil.
+	
+	tmvm := TMVM new.
+	
+	tmvm tape: tape. 
 	
 ! !
 
@@ -1340,32 +776,32 @@ pressFormat
 !TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 11/25/2020 20:47:12'!
 pressPause! !
 
-!TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 1/16/2021 17:41:51'!
+!TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 4/2/2021 21:18:20'!
 pressReset
 
 	tm ifNil:[^self].
 	
-	tm reset.
+	tmvm reset.
 	
 	self changed: #tape; changed: #currentConfiguation; changed: #program! !
 
-!TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 1/16/2021 18:45:10'!
+!TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 4/2/2021 21:13:05'!
 pressStep
 
 	tm ifNil:[^self].
 	
-	tm step: tape.
+	tmvm step.
 	
 	self changed: #tape; changed: #currentConfiguration! !
 
-!TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 1/25/2021 19:11:15'!
+!TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 4/2/2021 21:17:41'!
 refreshProgram
 
-	| tuples headSymbols | 
+	| tuples | 
 	
-	headSymbols _ { 1 -> '' . 0 -> '' . -1 -> '' } asDictionary.
+	tmvm automaton: tm. tmvm reset.
 	
-	tuples := tm program associations collect:[:each | { each key first . each key second . each value first . headSymbols at: each value second . each value third } ].
+	tuples := tm program asSet asArray.
 	
 	program _ tuples sort: [:x :y | x first <= y first ].
 	
@@ -1390,96 +826,6 @@ initialize
 	].
 
 	TuringolParser := Language parserFor:'Turingol'.
-	! !
-
-!TuringMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 12:55:23'!
-addConnectionTo: aStateDiagram withLabel: aString
-	aStateDiagram connect: from to: to label: aString! !
-
-!TuringMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 12:54:17'!
-from
-	^from! !
-
-!TuringMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 12:40:01'!
-from: aState
-	from _ aState! !
-
-!TuringMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 12:57:57'!
-headDirection
-	^headDirection! !
-
-!TuringMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 12:40:31'!
-headDirection: anInteger
-	headDirection _ anInteger! !
-
-!TuringMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 12:59:28'!
-key
-	^ { from . to }
-	! !
-
-!TuringMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 12:54:25'!
-readSymbol
-	^readSymbol! !
-
-!TuringMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 12:40:15'!
-readSymbol: aString
-	readSymbol _ aString! !
-
-!TuringMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 12:54:19'!
-to
-	^to! !
-
-!TuringMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 12:40:06'!
-to: aState
-	to _ aState! !
-
-!TuringMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 12:54:31'!
-writeSymbol
-	^writeSymbol! !
-
-!TuringMachineTransition methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 12:40:22'!
-writeSymbol: aString
-	writeSymbol _ aString! !
-
-!TuringMachineTransition methodsFor: 'testing' stamp: 'DF 12/23/2020 12:41:29'!
-isMoveLeftTransition
-	^readSymbol = writeSymbol and:[headDirection = -1]! !
-
-!TuringMachineTransition methodsFor: 'testing' stamp: 'DF 12/23/2020 12:41:22'!
-isMoveRightTransition
-	^readSymbol = writeSymbol and:[headDirection = 1]! !
-
-!TuringMachineTransition methodsFor: 'testing' stamp: 'DF 12/23/2020 12:40:58'!
-isReadTransition
-	^readSymbol = writeSymbol and:[headDirection = 0]! !
-
-!TuringMachineTransition class methodsFor: 'as yet unclassified' stamp: 'DF 1/16/2021 17:28:03'!
-alphabet: aCollectionOfSymbols currentState: aState if: aSymbol then: thenState else: elseState
-
-	| thenTransitions elseTransitions |
-	
-	thenTransitions _ { { aState . aSymbol } -> { aSymbol . 0 . thenState } }.
-	
-	elseTransitions _ aCollectionOfSymbols reject:[:each | each = aSymbol ] 
-		thenCollect:[:each | { aState . each } -> { each . 0 .  elseState } ].
-		
-	^ thenTransitions, elseTransitions
-	! !
-
-!TuringMachineTransition class methodsFor: 'as yet unclassified' stamp: 'DF 12/23/2020 12:44:15'!
-from: anAssociation
-
-	| aTransition |
-	
-	aTransition _ self new.
-	
-	aTransition from: anAssociation key first.
-	aTransition readSymbol: anAssociation key second.
-	aTransition writeSymbol: anAssociation value first.
-	aTransition headDirection: anAssociation value second.
-	aTransition to: anAssociation value third.
-	
-	^aTransition
 	! !
 
 !TuringolProcedure methodsFor: 'accessing' stamp: 'DF 12/30/2020 11:32:38'!
