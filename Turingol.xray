@@ -14,7 +14,7 @@ rules
 %topic Start
 
 Program 'program' : Definition 'def' List 'list' . 
-
+ 
 	%aspect labels
 
 	{ labels@program = (label@list) asDictionary } 
@@ -165,12 +165,10 @@ Statement 'statement' : "{" List 'list' "}"
 	{ follow@statement = follow@list } ;
 
 List 'list' : List 'tail' ";" Statement 'statement'
-
+ 
 	%aspect states
 
 	{ start@tail = start@list } 
-
-	{ follow@tail = (generator@list) next } 
 
 	{ start@statement = follow@tail } 
 
