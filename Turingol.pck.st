@@ -1,6 +1,6 @@
-'From Cuis 5.0 [latest update: #4526] on 2 April 2021 at 9:55:40 pm'!
+'From Cuis 5.0 [latest update: #4978] on 27 December 2021 at 1:32:46 pm'!
 'Description '!
-!provides: 'Turingol' 1 36!
+!provides: 'Turingol' 1 37!
 !requires: 'Kleene' 1 10 nil!
 !requires: 'X-ray' 1 859 nil!
 !requires: 'Automata' 1 8 nil!
@@ -687,12 +687,13 @@ alphabet
 	
 	^tm alphabet! !
 
-!TuringMachineModel methodsFor: 'menu' stamp: 'DF 1/15/2021 21:06:03'!
+!TuringMachineModel methodsFor: 'menu' stamp: 'DF 12/27/2021 12:45:46'!
 showStateDiagram
 
 	tm ifNil:[^self].
 	
-	[tm asStateDiagram asMorph embeddedInZoomingWindowLabeled: 'State Machine Diagram'] fork! !
+	tm asCondensedStateDiagram open
+	"[tm asCondensedStateDiagram open] fork"! !
 
 !TuringMachineModel methodsFor: 'initialization' stamp: 'DF 4/2/2021 21:27:34'!
 initialize
@@ -840,7 +841,7 @@ parameters: anOrderedCollection
 statements: anXraySymbol
 	statements _ anXraySymbol ! !
 
-!TuringolProcedure methodsFor: 'as yet unclassified' stamp: 'DF 12/31/2020 09:53:21'!
+!TuringolProcedure methodsFor: 'as yet unclassified' stamp: 'DF 12/27/2021 10:45:17'!
 applyTo: arguments procedures: aDictionary start: aState generator: aSequeneceGenerator
 
 	| env |
@@ -861,7 +862,7 @@ applyTo: arguments procedures: aDictionary start: aState generator: aSequeneceGe
 	
 	statements semantics.
 	
-	^ { #transitions -> (statements at: #transitions) . #follow -> (statements at:#follow) } asDictionary.
+	^ { #transitions -> (statements at: #transitions) . #follow -> (statements at:#follow) . #states -> (statements at:#states) } asDictionary.
 	
 	! !
 

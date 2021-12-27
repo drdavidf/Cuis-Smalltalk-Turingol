@@ -63,7 +63,7 @@ exit:
 
 loop:
 	move right one square;
-	if tape symbol is "c" then accept;
+	if tape symbol is "c" then { move right over "x"; if tape symbol is "_" then accept; reject ; } ;
 	check once ; 
 	move left until "c";
 	move left until "x";

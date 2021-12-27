@@ -1,0 +1,9 @@
+tape alphabet is _, 1, 0;
+
+go to carry;
+test: if tape symbol is "1" then
+	{ print "0"; carry: move left one square; go to test}; 
+print "1";
+realign: move right one square;
+	if tape symbol is "0" then go to realign.
+
