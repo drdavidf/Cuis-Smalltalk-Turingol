@@ -1,4 +1,4 @@
-'From Cuis 5.0 [latest update: #4978] on 27 December 2021 at 1:32:46 pm'!
+'From Cuis 5.0 [latest update: #4963] on 30 January 2022 at 3:25:54 pm'!
 'Description '!
 !provides: 'Turingol' 1 37!
 !requires: 'Kleene' 1 10 nil!
@@ -687,13 +687,12 @@ alphabet
 	
 	^tm alphabet! !
 
-!TuringMachineModel methodsFor: 'menu' stamp: 'DF 12/27/2021 12:45:46'!
+!TuringMachineModel methodsFor: 'menu' stamp: 'DF 1/15/2021 21:06:03'!
 showStateDiagram
 
 	tm ifNil:[^self].
 	
-	tm asCondensedStateDiagram open
-	"[tm asCondensedStateDiagram open] fork"! !
+	[tm asStateDiagram asMorph embeddedInZoomingWindowLabeled: 'State Machine Diagram'] fork! !
 
 !TuringMachineModel methodsFor: 'initialization' stamp: 'DF 4/2/2021 21:27:34'!
 initialize
@@ -841,7 +840,7 @@ parameters: anOrderedCollection
 statements: anXraySymbol
 	statements _ anXraySymbol ! !
 
-!TuringolProcedure methodsFor: 'as yet unclassified' stamp: 'DF 12/27/2021 10:45:17'!
+!TuringolProcedure methodsFor: 'as yet unclassified' stamp: 'DF 12/31/2020 09:53:21'!
 applyTo: arguments procedures: aDictionary start: aState generator: aSequeneceGenerator
 
 	| env |
@@ -862,7 +861,7 @@ applyTo: arguments procedures: aDictionary start: aState generator: aSequeneceGe
 	
 	statements semantics.
 	
-	^ { #transitions -> (statements at: #transitions) . #follow -> (statements at:#follow) . #states -> (statements at:#states) } asDictionary.
+	^ { #transitions -> (statements at: #transitions) . #follow -> (statements at:#follow) } asDictionary.
 	
 	! !
 
@@ -912,5 +911,17 @@ addConnectionsTo: aStateDiagram alphabet: aSetOfSymbols
 	labels _ self collect:[:each | each readSymbol, '/', each headDirection asString, '/', each writeSymbol, String lf ].
 	
 	self anyOne addConnectionTo: aStateDiagram withLabel: (labels fold:[:a :b | a,';',b ]).
+	! !
+
+!TransitionFunction methodsFor: '*Turingol' stamp: 'DF 4/2/2021 19:23:52'!
+asSet
+
+	| aSet |
+	
+	aSet := Set new.
+	
+	tuples do:[:eachDictionary | aSet addAll: (eachDictionary collect: [:each | each asTuple ]) ].
+	
+	^aSet
 	! !
 TuringMachineModel initialize!
