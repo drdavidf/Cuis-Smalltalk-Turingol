@@ -21,7 +21,13 @@ If you are on a Linux system, run the VM from the command line and give it the i
 
 # Using 
 
-When the window opens click on the background, select `Erudite...`, then `Read...`, and finally `Turingol manual`. 
-The manual explains how to write programs, how to run the simulator, and how to see a diagram of the compiled state machine.
+There are two sources of documentation for this system. The first, included in the repository itself (see above), 
+is a Word document with a Hebrew version of the users guide. An English version will be added shortly. 
+The manual explains how to write programs, how to run the simulator, and how to see the state machine's diagram.
+
+In addition, there is a user guide in the program itself. To access this guide, click on the background, 
+select `Erudite...`, then `Read...`, and finally `Turingol manual`. This guide only explains the Turingol language. 
+
+
 
 
