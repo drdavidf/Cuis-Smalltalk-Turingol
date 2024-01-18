@@ -10,7 +10,7 @@ I have extended the language with procedures to enable writing larger programs.
 The system is implemented in [Cuis-Smalltalk](https://github.com/Cuis-Smalltalk/Cuis-Smalltalk-Dev), therefore you need to install the Smalltalk
 virtual machine first. [Install the appropriate VM for your platform](https://github.com/OpenSmalltalk/opensmalltalk-vm/releases). 
 
-Next, download the zip file from the latest release, and unzip it.
+Next, download the zip file from the [latest release](https://github.com/drdavidf/Cuis-Smalltalk-Turingol/releases), and unzip it.
 
 # Running
 
