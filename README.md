@@ -21,7 +21,7 @@ If you are on a Linux system, run the VM from the command line and give it the i
 
 # Using 
 
-There are two sources of documentation for this system. The first, [included in the repository itself](https://github.com/drdavidf/Cuis-Smalltalk-Turingol/blob/master/%D7%A1%D7%91%D7%99%D7%91%D7%AA%20%D7%A4%D7%99%D7%AA%D7%95%D7%97%20%D7%9C%D7%9E%D7%9B%D7%95%D7%A0%D7%95%D7%AA%20%D7%98%D7%99%D7%95%D7%A8%D7%99%D7%A0%D7%92.docx), 
+There are two sources of documentation for this system. The first, [included in the repository](https://github.com/drdavidf/Cuis-Smalltalk-Turingol/blob/master/%D7%A1%D7%91%D7%99%D7%91%D7%AA%20%D7%A4%D7%99%D7%AA%D7%95%D7%97%20%D7%9C%D7%9E%D7%9B%D7%95%D7%A0%D7%95%D7%AA%20%D7%98%D7%99%D7%95%D7%A8%D7%99%D7%A0%D7%92.docx), 
 is a Word document with a Hebrew version of the users guide. An English version will be added shortly. 
 The manual explains how to write programs, how to run the simulator, and how to see the state machine's diagram.
 
