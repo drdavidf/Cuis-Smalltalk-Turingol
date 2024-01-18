@@ -2,7 +2,7 @@
 
 Turingol is a programming language and a development environment for simulating Turing machines. 
 
-The language is an extension of D. Knuth's language of the same name. Knuth has used Turingol in his paper on attribute grammars to illustrate their expressive power. 
+The language is an extension of [D. Knuth's language of the same name](#knuth). Knuth has used Turingol in his paper on attribute grammars to illustrate their expressive power. 
 I have extended the language with procedures to enable writing larger programs. 
 
 # Insallation
@@ -28,6 +28,8 @@ The manual explains how to write programs, how to run the simulator, and how to 
 In addition, there is a user guide in the program itself. To access this guide, click on the background, 
 select `Erudite...`, then `Read...`, and finally `Turingol manual`. This guide only explains the Turingol language. 
 
+# References
 
+1. <a id="knuth">Knuth, Donald E. (1968). "Semantics of context-free languages". Mathematical Systems Theory. 2 (2): 127–145.</a>
 
 
