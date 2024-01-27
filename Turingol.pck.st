@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6156] on 13 January 2024 at 7:19:35 pm'!
+'From Cuis6.3 [latest update: #6156] on 27 January 2024 at 10:21:51 pm'!
 'Description '!
-!provides: 'Turingol' 1 40!
+!provides: 'Turingol' 1 41!
 !requires: 'Kleene' 1 10 nil!
 !requires: 'Xray' 1 10 nil!
 !requires: 'Automata' 1 8 nil!
@@ -65,6 +65,16 @@ SystemWindow subclass: #TuringMachineWindow
 	category: 'Turingol'!
 !classDefinition: 'TuringMachineWindow class' category: #Turingol!
 TuringMachineWindow class
+	instanceVariableNames: ''!
+
+!classDefinition: #TuringolWorldMenu category: #Turingol!
+TheWorldMenu subclass: #TuringolWorldMenu
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Turingol'!
+!classDefinition: 'TuringolWorldMenu class' category: #Turingol!
+TuringolWorldMenu class
 	instanceVariableNames: ''!
 
 !classDefinition: #TuringolManual category: #Turingol!
@@ -439,11 +449,27 @@ step
 	
 ! !
 
+!TuringMachineWindow class methodsFor: 'as yet unclassified' stamp: 'DF 1/27/2024 22:10:46'!
+becomeDeveloper
+
+	Preferences at:#developer put: #true.! !
+
+!TuringMachineWindow class methodsFor: 'as yet unclassified' stamp: 'DF 1/27/2024 22:15:45'!
+hideDeveloperMenu
+
+	Preferences at:#developer put: #false.! !
+
 !TuringMachineWindow class methodsFor: 'as yet unclassified' stamp: 'DF 1/16/2021 19:56:22'!
 openBrowser
 	self open: TuringMachineModel new label: 'Turing Machine Browser'! !
 
-!TuringMachineWindow class methodsFor: 'as yet unclassified' stamp: 'DF 1/13/2024 14:44:09'!
+!TuringMachineWindow class methodsFor: 'as yet unclassified' stamp: 'DF 1/27/2024 22:14:57'!
+openTuringolManual
+
+	EruditeBook bookNamed: 'Turingol Manual' ifNone: [self error: 'Could not find Turingol Manual'] :: open
+	 ! !
+
+!TuringMachineWindow class methodsFor: 'as yet unclassified' stamp: 'DF 1/27/2024 21:59:05'!
 worldMenuOptions
 
 	^ `{{
@@ -454,7 +480,65 @@ worldMenuOptions
 			#selector 		-> 		#openBrowser.
 			#icon 			-> 	#editFindReplaceIcon.
 			#balloonText 	-> 		'A browser for editing compiling and running Turing machines'.
-		} asDictionary}`! !
+		} asDictionary.
+		
+		{
+			#itemGroup 		-> 		20.
+			#itemOrder 		-> 		40.
+			#label 			->	'Hide Developer Menu'.
+			#object 			->	TuringMachineWindow.
+			#selector 		-> 		#hideDeveloperMenu.
+			#icon 			-> 	#editFindReplaceIcon.
+			#balloonText 	-> 		'Replace the world menu with a version that hides the Smalltalk development environment'.
+		} asDictionary
+		}`! !
+
+!TuringolWorldMenu methodsFor: 'as yet unclassified' stamp: 'DF 1/27/2024 22:19:37'!
+buildWorldMenu
+
+	| aMenuMorph |
+
+	Preferences at:#developer :: ifTrue:[^super buildWorldMenu].
+	
+	aMenuMorph := MenuMorph entitled: 'World'.
+
+	aMenuMorph addItemsFromDictionaries: {
+	{
+		#label 			->	'Turingol IDE'.
+		#object 			->	TuringMachineWindow.
+		#selector 		-> 		#openBrowser.
+		#icon 			-> 	#editFindReplaceIcon.
+		#balloonText 	-> 		'A browser for developing Turing machines'.
+	} asDictionary .
+	
+	{
+		#label 			->	'Help'.
+		#object 			->	TuringMachineWindow.
+		#selector 		-> 		#openTuringolManual.
+		#icon 			-> 	#helpIcon.
+	} asDictionary }.
+
+	aMenuMorph addLine.
+
+	aMenuMorph addItemsFromDictionaries: {	
+	{
+		#label 			->	'Become Developer'.
+		#object 			->	TuringMachineWindow.
+		#selector 		-> 		#becomeDeveloper.
+		#icon 			-> 	#debugIcon.
+	} asDictionary }.
+
+	aMenuMorph addLine.
+
+	aMenuMorph addItemsFromDictionaries: {	
+	{
+		#label 			->	'Quit'.
+		#object 			->	Smalltalk.
+		#selector 		-> 		#saveAndQuit.
+		#icon 			-> 	#saveAndQuitIcon.
+	} asDictionary }.
+
+	^ aMenuMorph		! !
 
 !TuringolManual methodsFor: 'as yet unclassified' stamp: 'DF 1/25/2021 15:16:16'!
 BasicCommands
