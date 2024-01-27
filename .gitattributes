@@ -1,0 +1,3 @@
+*.st linguist-language=Smalltalk
+*.xray linguist-language=Xray
+*.tgl linguist-language=Turingol
