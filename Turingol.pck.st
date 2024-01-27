@@ -1,109 +1,109 @@
-'From Cuis 5.0 [latest update: #4963] on 30 January 2022 at 3:25:54 pm'!
+'From Cuis6.3 [latest update: #6156] on 13 January 2024 at 7:19:35 pm'!
 'Description '!
-!provides: 'Turingol' 1 37!
+!provides: 'Turingol' 1 40!
 !requires: 'Kleene' 1 10 nil!
-!requires: 'X-ray' 1 859 nil!
+!requires: 'Xray' 1 10 nil!
 !requires: 'Automata' 1 8 nil!
-SystemOrganization addCategory: 'Turingol'!
+SystemOrganization addCategory: #Turingol!
 
 
-!classDefinition: #MissingDefinition category: 'Turingol'!
+!classDefinition: #MissingDefinition category: #Turingol!
 Error subclass: #MissingDefinition
 	instanceVariableNames: 'message'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Turingol'!
-!classDefinition: 'MissingDefinition class' category: 'Turingol'!
+!classDefinition: 'MissingDefinition class' category: #Turingol!
 MissingDefinition class
 	instanceVariableNames: ''!
 
-!classDefinition: #TuringMachineStateMorph category: 'Turingol'!
+!classDefinition: #TuringMachineStateMorph category: #Turingol!
 LayoutMorph subclass: #TuringMachineStateMorph
 	instanceVariableNames: 'model label'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Turingol'!
-!classDefinition: 'TuringMachineStateMorph class' category: 'Turingol'!
+!classDefinition: 'TuringMachineStateMorph class' category: #Turingol!
 TuringMachineStateMorph class
 	instanceVariableNames: ''!
 
-!classDefinition: #InnerTableMorph category: 'Turingol'!
+!classDefinition: #InnerTableMorph category: #Turingol!
 InnerListMorph subclass: #InnerTableMorph
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Turingol'!
-!classDefinition: 'InnerTableMorph class' category: 'Turingol'!
+!classDefinition: 'InnerTableMorph class' category: #Turingol!
 InnerTableMorph class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlignedLabelMorph category: 'Turingol'!
+!classDefinition: #AlignedLabelMorph category: #Turingol!
 LabelMorph subclass: #AlignedLabelMorph
 	instanceVariableNames: 'alignment'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Turingol'!
-!classDefinition: 'AlignedLabelMorph class' category: 'Turingol'!
+!classDefinition: 'AlignedLabelMorph class' category: #Turingol!
 AlignedLabelMorph class
 	instanceVariableNames: ''!
 
-!classDefinition: #PluggableTableMorph category: 'Turingol'!
+!classDefinition: #PluggableTableMorph category: #Turingol!
 PluggableListMorph subclass: #PluggableTableMorph
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Turingol'!
-!classDefinition: 'PluggableTableMorph class' category: 'Turingol'!
+!classDefinition: 'PluggableTableMorph class' category: #Turingol!
 PluggableTableMorph class
 	instanceVariableNames: ''!
 
-!classDefinition: #TuringMachineWindow category: 'Turingol'!
+!classDefinition: #TuringMachineWindow category: #Turingol!
 SystemWindow subclass: #TuringMachineWindow
 	instanceVariableNames: 'stepCounter'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Turingol'!
-!classDefinition: 'TuringMachineWindow class' category: 'Turingol'!
+!classDefinition: 'TuringMachineWindow class' category: #Turingol!
 TuringMachineWindow class
 	instanceVariableNames: ''!
 
-!classDefinition: #TuringolManual category: 'Turingol'!
+!classDefinition: #TuringolManual category: #Turingol!
 EruditeBook subclass: #TuringolManual
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Turingol'!
-!classDefinition: 'TuringolManual class' category: 'Turingol'!
+!classDefinition: 'TuringolManual class' category: #Turingol!
 TuringolManual class
 	instanceVariableNames: ''!
 
-!classDefinition: #SequenceGenerator category: 'Turingol'!
+!classDefinition: #SequenceGenerator category: #Turingol!
 Object subclass: #SequenceGenerator
 	instanceVariableNames: 'next'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Turingol'!
-!classDefinition: 'SequenceGenerator class' category: 'Turingol'!
+!classDefinition: 'SequenceGenerator class' category: #Turingol!
 SequenceGenerator class
 	instanceVariableNames: ''!
 
-!classDefinition: #TuringMachineModel category: 'Turingol'!
+!classDefinition: #TuringMachineModel category: #Turingol!
 Object subclass: #TuringMachineModel
 	instanceVariableNames: 'text tm tmvm tape currentConfiguration selectedText errorNotifier program programIndex'
 	classVariableNames: 'TuringolParser'
 	poolDictionaries: ''
 	category: 'Turingol'!
-!classDefinition: 'TuringMachineModel class' category: 'Turingol'!
+!classDefinition: 'TuringMachineModel class' category: #Turingol!
 TuringMachineModel class
 	instanceVariableNames: ''!
 
-!classDefinition: #TuringolProcedure category: 'Turingol'!
+!classDefinition: #TuringolProcedure category: #Turingol!
 Object subclass: #TuringolProcedure
 	instanceVariableNames: 'statements parameters alphabet'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Turingol'!
-!classDefinition: 'TuringolProcedure class' category: 'Turingol'!
+!classDefinition: 'TuringolProcedure class' category: #Turingol!
 TuringolProcedure class
 	instanceVariableNames: ''!
 
@@ -386,31 +386,20 @@ buildTopRow
 	^aRow.
 	! !
 
-!TuringMachineWindow methodsFor: 'GUI building' stamp: 'DF 1/3/2021 16:20:06'!
+!TuringMachineWindow methodsFor: 'GUI building' stamp: 'DF 1/13/2024 14:51:41'!
 initialExtent
 
-	^`800@600` * Preferences standardCodeFont lineSpacing // 14! !
+	^ RealEstateAgent standardWindowExtent 
+	! !
 
-!TuringMachineWindow methodsFor: 'as yet unclassified' stamp: 'DF 1/16/2021 17:45:11'!
+!TuringMachineWindow methodsFor: 'initialization' stamp: 'DF 1/16/2021 17:45:11'!
 initialize
 
 	super initialize.
 	
 	stepCounter := 0.! !
 
-!TuringMachineWindow methodsFor: 'as yet unclassified' stamp: 'DF 12/5/2020 13:10:06'!
-isRunOn
-
-	^stepCounter > 0 and: [ model tmRunning ]! !
-
-!TuringMachineWindow methodsFor: 'as yet unclassified' stamp: 'DF 11/27/2020 20:28:37'!
-pressRun
-	
-	self startStepping.
-	
-! !
-
-!TuringMachineWindow methodsFor: 'as yet unclassified' stamp: 'DF 1/15/2021 21:07:55'!
+!TuringMachineWindow methodsFor: 'menu' stamp: 'DF 1/15/2021 21:07:55'!
 programMenu
 
 	| aMenu | 
@@ -426,7 +415,19 @@ programMenu
 
 	^aMenu ! !
 
-!TuringMachineWindow methodsFor: 'as yet unclassified' stamp: 'DF 1/9/2021 18:33:08'!
+!TuringMachineWindow methodsFor: 'testing' stamp: 'DF 12/5/2020 13:10:06'!
+isRunOn
+
+	^stepCounter > 0 and: [ model tmRunning ]! !
+
+!TuringMachineWindow methodsFor: 'running' stamp: 'DF 11/27/2020 20:28:37'!
+pressRun
+	
+	self startStepping.
+	
+! !
+
+!TuringMachineWindow methodsFor: 'running' stamp: 'DF 1/9/2021 18:33:08'!
 step
 
 	((stepCounter >= 100) or: [	model tmHalted] or:[model tmAbsent]) 
@@ -442,8 +443,8 @@ step
 openBrowser
 	self open: TuringMachineModel new label: 'Turing Machine Browser'! !
 
-!TuringMachineWindow class methodsFor: 'as yet unclassified' stamp: 'DF 1/16/2021 19:55:31'!
-worldMenuForOpenGroup
+!TuringMachineWindow class methodsFor: 'as yet unclassified' stamp: 'DF 1/13/2024 14:44:09'!
+worldMenuOptions
 
 	^ `{{
 			#itemGroup 		-> 		10.
@@ -687,12 +688,12 @@ alphabet
 	
 	^tm alphabet! !
 
-!TuringMachineModel methodsFor: 'menu' stamp: 'DF 1/15/2021 21:06:03'!
+!TuringMachineModel methodsFor: 'menu' stamp: 'DF 1/13/2024 17:49:37'!
 showStateDiagram
 
 	tm ifNil:[^self].
 	
-	[tm asStateDiagram asMorph embeddedInZoomingWindowLabeled: 'State Machine Diagram'] fork! !
+	tm asStateDiagram open! !
 
 !TuringMachineModel methodsFor: 'initialization' stamp: 'DF 4/2/2021 21:27:34'!
 initialize
@@ -725,28 +726,29 @@ isResetOn
 isStepOn
 	^false! !
 
-!TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 2/9/2021 14:58:25'!
-acceptContents: aString
+!TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 1/13/2024 15:03:05'!
+acceptContents: aText
 
 	[ | outcome |
 
-		text removeAttributes: { TextColor red } from: 1 to: text size.
+		text := aText.
+		"text removeAttributes: { TextColor red } from: 1 to: text size."
 		
-		outcome := TuringolParser parse: aString.
+		outcome := TuringolParser parse: aText asString asByteString.
 
 		outcome second 
 			ifEmpty:[ 
 				tm := TuringMachine new: outcome first second. self refreshProgram. ]
 			ifNotEmpty:[
-				tm := nil. program _ nil.
+				tm := nil. program := nil.
 				text addAttribute: TextColor red from: outcome second first start + 1 to: text size ].
 		
 	] 
 	on: XraySyntaxError do:[:anXraySyntaxError | 
-		tm := nil. program _ nil.
+		tm := nil. program := nil.
 		text addAttribute: TextColor red from: anXraySyntaxError position + 1 to: text size ]
 	on: MissingDefinition do:[: aMissingDefinition | 
-		tm := nil. program _ nil.
+		tm := nil. program := nil.
 		aMissingDefinition notifyTo: errorNotifier.		^false.]. 
 
 	self changed: #program.
@@ -865,50 +867,50 @@ applyTo: arguments procedures: aDictionary start: aState generator: aSequeneceGe
 	
 	! !
 
-!Set methodsFor: '*Turingol' stamp: 'DF 1/16/2021 19:49:58'!
+!Set methodsFor: '*Turingol' stamp: 'DF 1/13/2024 18:13:29'!
 addConnectionsTo: aStateDiagram alphabet: aSetOfSymbols
 
 	" if all transitions are of the form c/0/c for every c in the alphabet then it's a skip "
 	
 	| x isTotal labels syms |
 
-	isTotal _ aSetOfSymbols allSatisfy:[:each | self anySatisfy: [:t | t readSymbol = each ] ].
+	isTotal := aSetOfSymbols allSatisfy:[:each | self anySatisfy: [:t | t readSymbol = each ] ].
 	
 	(isTotal and: [self allSatisfy:[:each | each isReadTransition ] ]) 
 		ifTrue: [ self anyOne addConnectionTo: aStateDiagram withLabel: 'skip'. ^self ].
 
 	" if all transitions are of the form c/1/c for every c in the alphabet then it's a move right "
 	(isTotal and: [ self allSatisfy:[:each | each isMoveRightTransition ] ]) 
-		ifTrue: [ self anyOne addConnectionTo: aStateDiagram withLabel: ''. ^self ].
+		ifTrue: [ self anyOne addConnectionTo: aStateDiagram withLabel: '→'. ^self ].
 
 	" if all transitions are of the form c/-1/c for every c in the alphabet then it's a move left "
 	(isTotal and: [self allSatisfy:[:each | each isMoveLeftTransition ] ]) 
-		ifTrue: [ self anyOne addConnectionTo: aStateDiagram withLabel: ''. ^self ].
+		ifTrue: [ self anyOne addConnectionTo: aStateDiagram withLabel: (UnicodeCodePoint codePoint: 28 :: asString). ^self ].
 	
 	" if all transitions are of the form c/0/x for every c in the alphabet then it's a write x "
 	
-	x _ self anyOne writeSymbol.
+	x := self anyOne writeSymbol.
 	 
 	(isTotal and: [ self allSatisfy:[:each | each writeSymbol = x and:[ each headDirection = 0] ] ]) 
 		ifTrue: [ self anyOne addConnectionTo: aStateDiagram withLabel: 'write ', x. ^self ].
 	
 	" otherwise, if all the transitions differ only in the input and the inputs cover all the alphabet but c, then use a single ~c transition. "
 	
-	syms _ aSetOfSymbols asSet.
+	syms := aSetOfSymbols asSet.
 	
 	syms removeAll: (self collect:[:each | each readSymbol]).
 	
 	syms size = 1
-		ifTrue:[self anyOne addConnectionTo: aStateDiagram withLabel: '�', syms anyOne. ^self ].
+		ifTrue:[self anyOne addConnectionTo: aStateDiagram withLabel: 'read ¬', syms anyOne. ^self ].
 	
 	" otherwise, if all the transitions differ only in the input (read) symbol, use only that in the label".
 	
 	(self allSatisfy:[:each | each readSymbol = each writeSymbol and:[ each headDirection = 0] ])
-		ifTrue: [ self do:[:each | each addConnectionTo: aStateDiagram withLabel: each readSymbol]. ^self] .
+		ifTrue: [ self do:[:each | each addConnectionTo: aStateDiagram withLabel: 'read ', each readSymbol]. ^self] .
 	 
 	" otherwise, combine the labels of all the transitions into a single label "
 	
-	labels _ self collect:[:each | each readSymbol, '/', each headDirection asString, '/', each writeSymbol, String lf ].
+	labels := self collect:[:each | each readSymbol, '/', each headDirection asString, '/', each writeSymbol, String lf ].
 	
 	self anyOne addConnectionTo: aStateDiagram withLabel: (labels fold:[:a :b | a,';',b ]).
 	! !
