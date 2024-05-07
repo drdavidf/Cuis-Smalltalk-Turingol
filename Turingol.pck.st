@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6156] on 27 January 2024 at 10:21:51 pm'!
+'From Cuis6.3 [latest update: #6349] on 7 May 2024 at 7:32:57 pm'!
 'Description '!
-!provides: 'Turingol' 1 41!
+!provides: 'Turingol' 1 42!
 !requires: 'Kleene' 1 10 nil!
 !requires: 'Xray' 1 10 nil!
 !requires: 'Automata' 1 8 nil!
@@ -951,7 +951,7 @@ applyTo: arguments procedures: aDictionary start: aState generator: aSequeneceGe
 	
 	! !
 
-!Set methodsFor: '*Turingol' stamp: 'DF 1/13/2024 18:13:29'!
+!Set methodsFor: '*Turingol' stamp: 'DF 5/7/2024 19:32:25'!
 addConnectionsTo: aStateDiagram alphabet: aSetOfSymbols
 
 	" if all transitions are of the form c/0/c for every c in the alphabet then it's a skip "
@@ -969,7 +969,7 @@ addConnectionsTo: aStateDiagram alphabet: aSetOfSymbols
 
 	" if all transitions are of the form c/-1/c for every c in the alphabet then it's a move left "
 	(isTotal and: [self allSatisfy:[:each | each isMoveLeftTransition ] ]) 
-		ifTrue: [ self anyOne addConnectionTo: aStateDiagram withLabel: (UnicodeCodePoint codePoint: 28 :: asString). ^self ].
+		ifTrue: [ self anyOne addConnectionTo: aStateDiagram withLabel: (Character codePoint: 28 :: asString). ^self ].
 	
 	" if all transitions are of the form c/0/x for every c in the alphabet then it's a write x "
 	
