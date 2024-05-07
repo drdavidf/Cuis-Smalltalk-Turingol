@@ -1,6 +1,6 @@
 tokens
 
- : { } ; , . tape to alphabet is print accept reject go to if symbol then move left right one square
+ : { } ; , .  tape to alphabet is print accept reject go to if symbol then move left right one square
 
 patterns
 
@@ -192,14 +192,14 @@ Message 'message' : Identifier 'head' MessagePart * 'tail'
 
 	{ name @ message = text @ head , ( text @ tail fold:[ :x :y | x,y ] ifEmpty:[String new] ) } 
 
-	{ arguments @ message = (arguments @ tail) concatenation } 
+	{ arguments @ message = (arguments @ tail)  } 
 ;
 
 Message 'message' : move 'move' Direction 'dir' MessagePart + 'tail' 
 
 	{ name @ message = move value asString, (text @ dir) , ( text @ tail fold:[ :x :y | x,y ] ifEmpty:[String new] ) } 
 
-	{ arguments @ message = (arguments @ tail) concatenation } 
+	{ arguments @ message = (arguments @ tail)  } 
 ;
 
 MessagePart 'part' : Identifier 'name' 
@@ -218,7 +218,7 @@ MessageProtocol 'protocol' : Identifier 'head' MessageProtocolPart * 'tail'
 
 	{ name @ protocol = text @ head , ( text @ tail fold:[ :x :y | x,y ] ifEmpty:[String new] ) } 
 
-	{ parameters @ protocol = (parameters @ tail) } 
+	{ parameters @ protocol = (parameters @ tail)  } 
 
 	;
 
@@ -226,7 +226,7 @@ MessageProtocol 'protocol' : move 'move' Direction 'dir' MessageProtocolPart + '
 
 	{ name @ protocol = move value asString, (text @ dir) , ( text @ tail fold:[ :x :y | x,y ] ifEmpty:[String new] ) } 
 
-	{ parameters @ protocol = (parameters @ tail) } 
+	{ parameters @ protocol = (parameters @ tail)  } 
 
 	;
 
