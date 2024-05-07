@@ -1,13 +1,14 @@
 tokens
 
- : { } ; , . \" tape to alphabet is print accept reject go to if symbol then move left right one square
+ : { } ; , . tape to alphabet is print accept reject go to if symbol then move left right one square
 
 patterns
 
-"//[^[:cntrl:]]*$"					{ nextTerminal }
-[[:space:]]+					{ nextTerminal } 
-"[0-9A-Za-z_#=+*-]+"					identifier
-"\$[a-z]+"					variable
+"//[^[:cntrl:]]*$"							{ nextTerminal }
+[[:space:]]+							{ nextTerminal } 
+:isDoubleQuote:							quotation
+"[0-9A-Za-z_#=+*-]+"							identifier
+"\$[a-z]+"							variable
 
 rules
 
@@ -332,7 +333,7 @@ Identifier 'symbol': one 'token'
 
 %topic Expressions
 
-Expression 'expr' : \" Identifier 'literal' \" 
+Expression 'expr' : quotation Identifier 'literal' quotation
 
 		{ value@expr = text@literal }
 
