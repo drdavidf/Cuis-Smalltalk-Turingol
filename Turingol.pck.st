@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6349] on 7 May 2024 at 8:02:40 pm'!
+'From Cuis6.3 [latest update: #6350] on 8 May 2024 at 9:32:13 pm'!
 'Description '!
-!provides: 'Turingol' 1 44!
+!provides: 'Turingol' 1 43!
 !requires: 'Kleene' 1 10 nil!
 !requires: 'Xray' 1 10 nil!
 !requires: 'Automata' 1 8 nil!
@@ -914,6 +914,33 @@ refreshProgram
 	program withIndexDo: [:each :i | programIndex at: { each first . each second } put: i ].
 ! !
 
+!TuringMachineModel class methodsFor: 'as yet unclassified' stamp: 'DF 5/8/2024 21:30:17'!
+fileIn: aFileEntry
+
+	| aString contents model |
+	
+	aString := aFileEntry baseName.
+	
+	contents := aFileEntry fileContents.
+	
+	model := self new.
+	
+	model acceptContents: contents.
+	
+	TuringMachineWindow open: model label: 'Turing Machine Browser: ' ,  aString
+	
+! !
+
+!TuringMachineModel class methodsFor: 'as yet unclassified' stamp: 'DF 5/8/2024 21:25:51'!
+fileReaderServicesForFileEntry: filename suffix: suffix
+
+	"FileList buttons that file in a language and add it to the language catalog."
+
+	(#('tgl') includes: suffix) ifTrue: [
+		^ { self serviceFileInLanguage} ].
+	
+	^#()! !
+
 !TuringMachineModel class methodsFor: 'as yet unclassified' stamp: 'DF 1/24/2021 18:55:41'!
 initialize
 
@@ -931,6 +958,20 @@ initialize
 
 	TuringolParser := Language parserFor:'Turingol'.
 	! !
+
+!TuringMachineModel class methodsFor: 'as yet unclassified' stamp: 'DF 5/8/2024 21:26:42'!
+serviceFileInLanguage
+
+	"Answer the service of filing-in a language"
+
+	^ (SimpleServiceEntry
+		provider: self 
+		label: 'file in Turingol language'
+		selector: #fileIn:
+		description: 'open this language in a Turingol Browser'
+		buttonLabel: 'code'
+		icon: #editFindReplaceIcon)
+			sortOrder: 10! !
 
 !TuringolProcedure methodsFor: 'accessing' stamp: 'DF 12/30/2020 11:32:38'!
 alphabet: aSet
