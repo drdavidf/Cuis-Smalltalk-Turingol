@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6349] on 7 May 2024 at 7:32:57 pm'!
+'From Cuis6.3 [latest update: #6349] on 7 May 2024 at 8:02:40 pm'!
 'Description '!
-!provides: 'Turingol' 1 42!
+!provides: 'Turingol' 1 44!
 !requires: 'Kleene' 1 10 nil!
 !requires: 'Xray' 1 10 nil!
 !requires: 'Automata' 1 8 nil!
@@ -449,19 +449,27 @@ step
 	
 ! !
 
-!TuringMachineWindow class methodsFor: 'as yet unclassified' stamp: 'DF 1/27/2024 22:10:46'!
+!TuringMachineWindow class methodsFor: 'as yet unclassified' stamp: 'DF 5/7/2024 19:51:36'!
 becomeDeveloper
 
-	Preferences at:#developer put: #true.! !
+	Preferences at:#developer put: true.! !
 
-!TuringMachineWindow class methodsFor: 'as yet unclassified' stamp: 'DF 1/27/2024 22:15:45'!
+!TuringMachineWindow class methodsFor: 'as yet unclassified' stamp: 'DF 5/7/2024 19:51:14'!
 hideDeveloperMenu
 
-	Preferences at:#developer put: #false.! !
+Preferences at: #developer ifAbsentAddDescription: 'If set, expose the entire developer world menu, otherwise just show entries for relevant for the specific application.'
+		category: #programming type: Boolean value: false.
+		
+	Preferences at:#developer put: false.! !
 
 !TuringMachineWindow class methodsFor: 'as yet unclassified' stamp: 'DF 1/16/2021 19:56:22'!
 openBrowser
 	self open: TuringMachineModel new label: 'Turing Machine Browser'! !
+
+!TuringMachineWindow class methodsFor: 'as yet unclassified' stamp: 'DF 5/7/2024 19:41:42'!
+openFileListWindow
+
+	FileList open! !
 
 !TuringMachineWindow class methodsFor: 'as yet unclassified' stamp: 'DF 1/27/2024 22:14:57'!
 openTuringolManual
@@ -493,8 +501,9 @@ worldMenuOptions
 		} asDictionary
 		}`! !
 
-!TuringolWorldMenu methodsFor: 'as yet unclassified' stamp: 'DF 1/27/2024 22:19:37'!
+!TuringolWorldMenu methodsFor: 'as yet unclassified' stamp: 'DF 5/7/2024 20:02:19'!
 buildWorldMenu
+	"Preferences at: #worldMenu  put: TuringolWorldMenu."
 
 	| aMenuMorph |
 
@@ -516,7 +525,16 @@ buildWorldMenu
 		#object 			->	TuringMachineWindow.
 		#selector 		-> 		#openTuringolManual.
 		#icon 			-> 	#helpIcon.
-	} asDictionary }.
+	} asDictionary .
+
+	{
+		#label 			->	'File List'.
+		#object 			->	TuringMachineWindow.
+		#selector 		-> 		#openFileListWindow.
+		#icon 			-> 	#systemFileManagerIcon.
+	} asDictionary 
+	
+	}.
 
 	aMenuMorph addLine.
 
