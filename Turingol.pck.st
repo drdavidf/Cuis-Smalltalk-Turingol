@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6350] on 8 May 2024 at 9:32:13 pm'!
+'From Cuis6.3 [latest update: #6349] on 14 May 2024 at 1:47:02 pm'!
 'Description '!
-!provides: 'Turingol' 1 43!
+!provides: 'Turingol' 1 46!
 !requires: 'Kleene' 1 10 nil!
 !requires: 'Xray' 1 10 nil!
 !requires: 'Automata' 1 8 nil!
@@ -15,6 +15,16 @@ Error subclass: #MissingDefinition
 	category: 'Turingol'!
 !classDefinition: 'MissingDefinition class' category: #Turingol!
 MissingDefinition class
+	instanceVariableNames: ''!
+
+!classDefinition: #TuringolEditor category: #Turingol!
+XrayEditor subclass: #TuringolEditor
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Turingol'!
+!classDefinition: 'TuringolEditor class' category: #Turingol!
+TuringolEditor class
 	instanceVariableNames: ''!
 
 !classDefinition: #TuringMachineStateMorph category: #Turingol!
@@ -99,7 +109,7 @@ SequenceGenerator class
 
 !classDefinition: #TuringMachineModel category: #Turingol!
 Object subclass: #TuringMachineModel
-	instanceVariableNames: 'text tm tmvm tape currentConfiguration selectedText errorNotifier program programIndex'
+	instanceVariableNames: 'text tm tmvm tape currentConfiguration selectedText errorNotifier program programIndex programName'
 	classVariableNames: 'TuringolParser'
 	poolDictionaries: ''
 	category: 'Turingol'!
@@ -143,6 +153,25 @@ notifyTo: aNotifier
 	aNotifier notify: ('Undefined ->' asText addAttribute: TextColor red ; yourself) at: message start in: nil; redrawNeeded.
 	
 ! !
+
+!TuringolEditor methodsFor: 'as yet unclassified' stamp: 'DF 5/14/2024 13:44:54'!
+getMenu
+
+	| aMenu |
+	
+	aMenu := super getMenu.
+	
+	aMenu addLine.
+	
+	aMenu addItemsFromDictionaries: {
+			{
+				#label 			-> 	'File Out ...'.
+				#object 			-> 	model textProvider.
+				#selector 		-> 		#fileOut.
+				#balloonText 	-> 		'Save the program to a file.'.
+			} asDictionary } . 
+			
+	^aMenu! !
 
 !TuringMachineStateMorph methodsFor: 'as yet unclassified' stamp: 'DF 1/9/2021 18:33:53'!
 adoptWidgetsColor: aColor
@@ -462,9 +491,13 @@ Preferences at: #developer ifAbsentAddDescription: 'If set, expose the entire de
 		
 	Preferences at:#developer put: false.! !
 
-!TuringMachineWindow class methodsFor: 'as yet unclassified' stamp: 'DF 1/16/2021 19:56:22'!
+!TuringMachineWindow class methodsFor: 'as yet unclassified' stamp: 'DF 5/14/2024 13:22:35'!
 openBrowser
-	self open: TuringMachineModel new label: 'Turing Machine Browser'! !
+	| model |
+	
+	model := TuringMachineModel new.
+	
+	self open: model label: 'Turing Machine Browser: ' , model programName! !
 
 !TuringMachineWindow class methodsFor: 'as yet unclassified' stamp: 'DF 5/7/2024 19:41:42'!
 openFileListWindow
@@ -739,6 +772,14 @@ program
 	
 	! !
 
+!TuringMachineModel methodsFor: 'accessing' stamp: 'DF 5/14/2024 13:22:30'!
+programName
+	^programName! !
+
+!TuringMachineModel methodsFor: 'accessing' stamp: 'DF 5/14/2024 13:20:29'!
+programName: aString
+	programName := aString! !
+
 !TuringMachineModel methodsFor: 'accessing' stamp: 'DF 1/9/2021 21:51:03'!
 selectedText
 	^ selectedText! !
@@ -797,14 +838,16 @@ showStateDiagram
 	
 	tm asStateDiagram open! !
 
-!TuringMachineModel methodsFor: 'initialization' stamp: 'DF 4/2/2021 21:27:34'!
+!TuringMachineModel methodsFor: 'initialization' stamp: 'DF 5/14/2024 13:19:10'!
 initialize
 
+	programName := 'Unnamed'.
+	
 	tape := Tape new.
 	
 	tape at: -20 put: tape blank; at:20 put: tape blank. "give us some blank entries so we'll have something to show"
 		
-	selectedText _ 1 to:0.
+	selectedText := 1 to:0.
 	
 	text := '' asText.
 	
@@ -861,14 +904,30 @@ acceptContents: aText
 acceptedContents
 	^text! !
 
-!TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 1/9/2021 22:09:35'!
+!TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 5/14/2024 13:43:29'!
 editorClassFor: aMessage
 
-	^XrayEditor! !
+	^TuringolEditor! !
 
 !TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 1/9/2021 22:01:13'!
 errorNotifier: aNotifier
 	errorNotifier _ aNotifier! !
+
+!TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 5/14/2024 13:34:22'!
+fileOut
+
+
+	StringRequestMorph
+		request: 'Enter file name'
+		initialAnswer: programName
+		do: [:aString| | aFileEntry | 
+			
+				programName := aString.
+				
+				aFileEntry := FileEntry withPathName: aString , '.tgl'.
+
+				aFileEntry fileContents: text asString ].
+! !
 
 !TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 1/3/2021 16:51:47'!
 pressFormat
@@ -914,7 +973,7 @@ refreshProgram
 	program withIndexDo: [:each :i | programIndex at: { each first . each second } put: i ].
 ! !
 
-!TuringMachineModel class methodsFor: 'as yet unclassified' stamp: 'DF 5/8/2024 21:30:17'!
+!TuringMachineModel class methodsFor: 'as yet unclassified' stamp: 'DF 5/14/2024 13:20:45'!
 fileIn: aFileEntry
 
 	| aString contents model |
@@ -924,6 +983,7 @@ fileIn: aFileEntry
 	contents := aFileEntry fileContents.
 	
 	model := self new.
+	model programName: aString.
 	
 	model acceptContents: contents.
 	
@@ -959,16 +1019,16 @@ initialize
 	TuringolParser := Language parserFor:'Turingol'.
 	! !
 
-!TuringMachineModel class methodsFor: 'as yet unclassified' stamp: 'DF 5/8/2024 21:26:42'!
+!TuringMachineModel class methodsFor: 'as yet unclassified' stamp: 'DF 5/14/2024 13:47:00'!
 serviceFileInLanguage
 
 	"Answer the service of filing-in a language"
 
 	^ (SimpleServiceEntry
 		provider: self 
-		label: 'file in Turingol language'
+		label: 'file in Turingol program'
 		selector: #fileIn:
-		description: 'open this language in a Turingol Browser'
+		description: 'open this file in a Turingol Browser'
 		buttonLabel: 'code'
 		icon: #editFindReplaceIcon)
 			sortOrder: 10! !
