@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6349] on 7 July 2024 at 7:00:59 pm'!
+'From Cuis6.3 [latest update: #6349] on 9 July 2024 at 3:52:57 pm'!
 'Description '!
-!provides: 'Turingol' 1 47!
+!provides: 'Turingol' 1 48!
 !requires: 'Kleene' 1 10 nil!
 !requires: 'Xray' 1 10 nil!
 !requires: 'Automata' 1 8 nil!
@@ -871,12 +871,12 @@ isResetOn
 isStepOn
 	^false! !
 
-!TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 7/7/2024 18:55:16'!
+!TuringMachineModel methodsFor: 'as yet unclassified' stamp: 'DF 7/9/2024 15:52:36'!
 acceptContents: aText
 
 	[ | outcome |
 
-		text := aText.
+		text := aText asText.
 		text removeAttributes: { TextColor red } from: 1 to: text size.
 		
 		outcome := TuringolParser parse: aText asString asByteString.
